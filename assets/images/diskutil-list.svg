@@ -1,24 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" font-family="'Menlo','Courier New',monospace">
-  <rect width="640" height="320" rx="8" fill="#1e1e1e"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 340" font-family="'Menlo','Courier New',monospace">
+  <rect width="640" height="340" rx="8" fill="#1e1e1e"/>
   <rect x="0" y="0" width="640" height="28" rx="8" fill="#3a3a3a"/>
   <rect x="0" y="18" width="640" height="10" fill="#3a3a3a"/>
   <circle cx="16" cy="14" r="6" fill="#ff5f57"/><circle cx="34" cy="14" r="6" fill="#febc2e"/><circle cx="52" cy="14" r="6" fill="#28c840"/>
   <text x="320" y="18" text-anchor="middle" font-size="11" fill="#aaa">Terminal — diskutil list</text>
-  <text x="12" y="50" font-size="11" fill="#78dc78">MacBook-Air:~ alessio$</text>
-  <text x="200" y="50" font-size="11" fill="#d4d4d4"> diskutil list</text>
-  <text x="12" y="72" font-size="11" fill="#d4d4d4">/dev/disk0 (internal, physical):</text>
-  <text x="24" y="88" font-size="10.5" fill="#aaa">   #:                       TYPE NAME                    SIZE       IDENTIFIER</text>
-  <text x="24" y="104" font-size="10.5" fill="#aaa">   0:      GUID_partition_scheme                        *121.3 GB   disk0</text>
-  <text x="24" y="120" font-size="10.5" fill="#9cdcfe">   1:                        EFI EFI                     209.7 MB   disk0s1</text>
-  <text x="24" y="136" font-size="10.5" fill="#ce9178">   2:                 Apple_APFS Container disk1         60.0 GB    disk0s2</text>
-  <text x="24" y="152" font-size="10.5" fill="#9cdcfe">   3:           Apple_APFS_Recovery                       650.0 MB   disk0s3</text>
-  <text x="24" y="168" font-size="10.5" fill="#d7ba7d">   4:           Linux Filesystem                        48.0 GB    disk0s4</text>
-  <text x="24" y="184" font-size="10.5" fill="#d7ba7d">   5:           Linux swap                              4.0 GB     disk0s5</text>
-  <text x="12" y="208" font-size="11" fill="#d4d4d4">/dev/disk1 (synthesized):</text>
-  <text x="24" y="224" font-size="10.5" fill="#aaa">   #:                       TYPE NAME                    SIZE       IDENTIFIER</text>
-  <text x="24" y="240" font-size="10.5" fill="#aaa">   0:      APFS Container Scheme -                      +60.0 GB    disk1</text>
-  <text x="24" y="256" font-size="10.5" fill="#aaa">                                 Physical Store disk0s2</text>
-  <text x="24" y="272" font-size="10.5" fill="#9cdcfe">   1:                APFS Volume Macintosh HD            38.2 GB    disk1s1</text>
-  <text x="24" y="288" font-size="10.5" fill="#9cdcfe">   2:                APFS Volume Preboot                 300.0 MB   disk1s2</text>
-  <text x="24" y="304" font-size="10.5" fill="#9cdcfe">   3:                APFS Volume Recovery                1.0 GB     disk1s3</text>
+  <text x="12" y="52" font-size="11" fill="#78dc78">MacBook-Air:~ alessio$</text>
+  <text x="200" y="52" font-size="11" fill="#d4d4d4"> diskutil list</text>
+  <text x="12" y="76" font-size="11" fill="#d4d4d4">/dev/disk0 (internal, physical):</text>
+  <text x="24" y="94" font-size="10.5" fill="#aaa">   #:                       TYPE NAME                    SIZE       IDENTIFIER</text>
+  <text x="24" y="112" font-size="10.5" fill="#aaa">   0:      GUID_partition_scheme                        *121.3 GB   disk0</text>
+  <text x="24" y="130" font-size="10.5" fill="#9cdcfe">   1:                        EFI EFI                     209.7 MB   disk0s1</text>
+  <text x="24" y="148" font-size="10.5" fill="#ce9178">   2:                 Apple_APFS Container disk1         60.0 GB    disk0s2</text>
+  <text x="24" y="166" font-size="10.5" fill="#9cdcfe">   3:           Apple_APFS_Recovery                       650.0 MB   disk0s3</text>
+  <text x="24" y="184" font-size="10.5" fill="#d7ba7d">   4:           Linux Filesystem                        48.0 GB    disk0s4</text>
+  <text x="24" y="202" font-size="10.5" fill="#d7ba7d">   5:           Linux swap                              4.0 GB     disk0s5</text>
+  <text x="12" y="228" font-size="11" fill="#d4d4d4">/dev/disk1 (synthesized):</text>
+  <text x="24" y="246" font-size="10.5" fill="#aaa">   #:                       TYPE NAME                    SIZE       IDENTIFIER</text>
+  <text x="24" y="264" font-size="10.5" fill="#aaa">   0:      APFS Container Scheme -                      +60.0 GB    disk1</text>
+  <text x="24" y="282" font-size="10.5" fill="#aaa">                                 Physical Store disk0s2</text>
+  <text x="24" y="300" font-size="10.5" fill="#9cdcfe">   1:                APFS Volume Macintosh HD            38.2 GB    disk1s1</text>
+  <text x="24" y="318" font-size="10.5" fill="#9cdcfe">   2:                APFS Volume Preboot                 300.0 MB   disk1s2</text>
+  <text x="24" y="334" font-size="10.5" fill="#9cdcfe">   3:                APFS Volume Recovery                1.0 GB     disk1s3</text>
 </svg>
