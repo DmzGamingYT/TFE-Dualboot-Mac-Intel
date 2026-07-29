@@ -711,6 +711,29 @@ footer{background:linear-gradient(180deg, #2c231d, #1f1915);color:var(--dark-mut
   border-radius:5px;font-family:inherit;font-size:10px;margin:0 3px;
   background:rgba(230,219,207,.03);color:rgba(230,219,207,.4);}
 
+/* ── Compteur de slides ── */
+.p-counter{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;
+  color:rgba(230,219,207,.4);white-space:nowrap;padding:6px 14px;
+  border:1px solid rgba(230,219,207,.08);border-radius:8px;
+  background:rgba(230,219,207,.03);}
+.p-counter strong{color:rgba(230,219,207,.8)}
+
+/* ── Sous-titre de section ── */
+.p-subtitle{font-family:var(--font-mono);font-size:clamp(.8rem,1.8vw,1rem);
+  letter-spacing:.06em;color:rgba(122,158,107,.75);margin-bottom:8px;
+  text-transform:uppercase;}
+.p-section-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:rgba(230,219,207,.4);margin-bottom:16px;
+  padding:5px 12px;border:1px solid rgba(230,219,207,.1);border-radius:6px;
+  display:inline-block;}
+
+/* ── Barre de progression dans le bottom ── */
+.p-progress-wrap{flex:1;max-width:320px;height:4px;border-radius:2px;
+  background:rgba(230,219,207,.08);overflow:hidden;}
+.p-progress-bar{height:100%;border-radius:2px;width:0;
+  background:linear-gradient(90deg,var(--sage),var(--terra));
+  transition:width .6s cubic-bezier(.25,.8,.25,1);}
+
 @media(max-height:580px){
   .p-main{padding:16px 40px}
   .p-time{font-size:clamp(3rem,10vw,5rem)}
@@ -1599,6 +1622,7 @@ lspci -k | grep -A3 Network ; dmesg | grep brcm</span></li>
     <div class="p-top">
       <div class="p-dots" id="p-dots"></div>
       <div class="p-label" id="p-label"></div>
+      <div class="p-counter" id="p-counter"></div>
       <button class="p-exit" id="p-exit" title="Quitter (Esc)">✕</button>
     </div>
     <div class="p-main">
@@ -1609,6 +1633,7 @@ lspci -k | grep -A3 Network ; dmesg | grep brcm</span></li>
     </div>
     <div class="p-bottom">
       <button class="p-nav" id="p-prev" title="Section précédente (←)">◀ <span>Précédente</span></button>
+      <div class="p-progress-wrap"><div class="p-progress-bar" id="p-progress"></div></div>
       <div class="p-hint"><kbd>Espace</kbd> Démarrer / Pause · <kbd>←</kbd> <kbd>→</kbd> Naviguer · <kbd>Esc</kbd> Quitter</div>
       <button class="p-nav" id="p-next" title="Section suivante (→)"><span>Suivante</span> ▶</button>
     </div>
@@ -1786,11 +1811,16 @@ lspci -k | grep -A3 Network ; dmesg | grep brcm</span></li>
 
   /* ── Timeline soutenance + chronomètre ── */
   var SEGS=[
-    {start:0,dur:2,title:"Introduction & contexte",points:["Accroche : le MacBook Air au centre de la salle","Définition : dual-boot ≠ virtualisation","Annonce du plan en une phrase"]},
-    {start:2,dur:3,title:"Analyse de la situation",points:["Pourquoi le dual-boot : performances natives, accès matériel","Contraintes du Mac Intel : EFI, APFS, ESP partagée, absence de T2","Choix de la distribution et plan de partitionnement justifiés"]},
-    {start:5,dur:5,title:"Actes techniques — démonstration",points:["Réduction APFS (diskutil) et création des partitions","Installation d'Ubuntu en mode EFI, ESP partagée non formatée","rEFInd en chargeur principal, GRUB en secours","Démarrage sur les deux OS — montrer, pas raconter"]},
-    {start:10,dur:3,title:"Dysfonctionnements & solutions",points:["Trois cas maximum : Wi-Fi BCM4360, webcam FaceTime HD, horloge RTC","Méthode de diagnostic : dmesg, lspci, journalctl","Chaque incident = symptôme → cause → solution"]},
-    {start:13,dur:2,title:"Conclusion & perspectives",points:["Bilan au regard des objectifs de la fiche","Limites rencontrées et contournements","Ouvertures : Apple Silicon, OpenCore Legacy Patcher, virtualisation"]}
+    {start:0,dur:1.5,section:"0",title:"Introduction & contexte",subtitle:"Accroche & présentation du sujet",points:["MacBook Air 13" Early 2015 — machine Intel viable encore en 2026","Objectif : redonner vie au matériel via un double amorçage macOS / Ubuntu","Dual-boot ≠ virtualisation : deux OS natifs, même SSD, performances natives"]},
+    {start:1.5,dur:1.5,section:"1",title:"Choix du sujet & conformité",subtitle:"Fiche officielle & critères d'évaluation",points:["Sujet validé : correspond aux exemples de la fiche — zéro risque administratif","Les 4 critères couverts d'office : actes techniques, analyse, dysfonctionnements, vocabulaire","Format 15 min maîtrisable : une installation bien rodée se raconte clairement"]},
+    {start:3,dur:1,section:"2",title:"Analyse de la situation",subtitle:"Machine cible & contraintes matérielles",points:["Intel Core i5-5250U, 8 Go RAM, SSD 121 GB — pas de puce T2","Architecture EFI classique, pas de Secure Boot Apple — compatibilité Linux assurée","ESP existante partagée entre macOS et Ubuntu — aucun firmware à réinstaller"]},
+    {start:4,dur:1.5,section:"3.1",title:"Partitionnement du disque",subtitle:"Réduction APFS & création des volumes Linux",points:["diskutil apfs resizeContainer pour réduire macOS à 60 Go","gdisk pour créer les partitions ext4 (48 Go) et swap (4 Go) en GPT","Plan de disque final : ESP → macOS APFS → Recovery → Ubuntu ext4 → swap"]},
+    {start:5.5,dur:2,section:"3.2",title:"Installation & amorçage",subtitle:"rEFInd, GRUB & chaîne de démarrage",points:["Installation d'Ubuntu 22.04 en mode EFI depuis clé USB bootable","rEFInd comme chargeur principal : menu graphique, détection automatique des noyaux","GRUB en secours (chainload) — redondance voulue pour robustesse","Configuration NVRAM et efibootmgr pour prioriser rEFInd"]},
+    {start:7.5,dur:1,section:"3.3",title:"Pilotes & détection matérielle",subtitle:"Wi-Fi, GPU, webcam & audio sous Linux",points:["Broadcom BCM4360 : pilote propriétaire wl installé via apt","Intel HD 6000 : driver i915 chargé automatiquement","FaceTime HD Camera : module facetimehd depuis GitHub","Audio Intel Wildcat Point : fonctionnel dès l'installation"]},
+    {start:8.5,dur:1.5,section:"3.4",title:"Performances dual-boot vs VM",subtitle:"Comparaison objective avec chiffres",points:["CPU natif vs virtualisé : pas de perte en dual-boot, 20-40% de perte en VM","Accès matériel direct : GPU, Wi-Fi, USB — impossible en VM sans passthrough","Dual-boot = idéal pour le développement et les tâches lourdes"]},
+    {start:10,dur:2,section:"4",title:"Dysfonctionnements & résolutions",subtitle:"Journal de bord — méthode symptôme → solution",points:["Wi-Fi BCM4360 non détecté → installation pilote wl, blacklist bcma","rEFInd ne voit plus macOS → scanfor trop restrictif, correction de refind.conf","Horloge RTC décalée → hwclock --systohc pour synchroniser UTC","Méthode systématique : dmesg, lspci, journalctl pour chaque incident"]},
+    {start:12,dur:1.5,section:"5",title:"Planning & suivi du projet",subtitle:"Gantt, jalons & gestion du temps",points:["8 semaines planifiées : préparation, exécution, rédaction en parallèle","Jalons critiques : partitionnement (S3), installation (S4), validation (S6)","Journal de bord mis à jour en temps réel — traçabilité complète"]},
+    {start:13.5,dur:1.5,section:"6",title:"Conclusion & perspectives",subtitle:"Bilan & ouvertures",points:["Objectifs atteints : dual-boot stable sur 10 cycles de redémarrage","Limites : absence de Bluetooth natif, énergie sous Ubuntu à optimiser","Ouvertures : OpenCore Legacy Patcher, Apple Silicon, virtualisation QEMU"]}
   ];
   var TOTAL=900, remaining=TOTAL, running=false, tid=null, last=0;
   var tTime=document.getElementById('t-time'), tStatus=document.getElementById('t-status');
@@ -1842,20 +1872,30 @@ lspci -k | grep -A3 Network ; dmesg | grep brcm</span></li>
   var presTitle=document.getElementById('p-title');
   var presPoints=document.getElementById('p-points');
   var presLabel=document.getElementById('p-label');
+  var presCounter=document.getElementById('p-counter');
+  var presProgress=document.getElementById('p-progress');
   var presSeg=-1, presOpen=false;
 
   function presRender(){
     var elapsed=TOTAL-remaining;
     presTime.textContent=fmt(remaining);
     presTime.classList.toggle('warn',remaining<=60&&remaining>0);
+    /* barre de progression */
+    if(presProgress){presProgress.style.width=(elapsed/TOTAL*100).toFixed(1)+'%';}
     var ci=TOTAL>0?curIdx(elapsed):0;
     if(ci!==presSeg){
       presSeg=ci;
       var s=SEGS[ci];
-      presTitle.textContent=s.title;
+      /* titre avec sous-titre et tag de section */
+      var titleHTML='<span class="p-section-tag">§ '+s.section+'</span>';
+      titleHTML+='<br>'+s.title;
+      if(s.subtitle){titleHTML+='<div class="p-subtitle">'+s.subtitle+'</div>';}
+      presTitle.innerHTML=titleHTML;
       presPoints.innerHTML=s.points.map(function(p){return '<li>'+p+'</li>';}).join('');
       var t=s.start;var e=s.start+s.dur;
       presLabel.textContent=fmt(t*60)+' → '+fmt(e*60);
+      /* compteur de slides */
+      if(presCounter){presCounter.innerHTML='<strong>'+(ci+1)+'</strong> / '+SEGS.length;}
       var dots=[].slice.call(document.querySelectorAll('.p-dot'));
       dots.forEach(function(d,i){
         d.classList.toggle('active',i===ci);
