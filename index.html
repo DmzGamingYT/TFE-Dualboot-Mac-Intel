@@ -1,0 +1,1925 @@
+<!DOCTYPE html>
+<html lang="fr" data-os="macos" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TFE — Dual-boot Mac Intel · Document de cadrage v1.2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* =============================================
+   🌿 THÈME ORGANIQUE DOUX — TFE Dual-boot Mac Intel
+   Palette : sauge, terracotta, crème, terre
+   Inspiré des tonalités naturelles, minérales & végétales
+   ============================================= */
+
+:root{
+  --paper:#f2ece6;        --paper-2:#e9e0d7;      --card:#fffaf4;
+  --ink:#2c231d;          --ink-2:#6b5c50;         --ink-3:#9c8a7a;
+  --line:#d6c9bc;         --line-2:#e5dad0;
+
+  --dark:#2c231d;         --dark-2:#3d322b;        --dark-line:#55483f;
+  --dark-ink:#f0e7dd;     --dark-mut:#a69686;
+
+  --sage:#7a8f6b;         --sage-deep:#5d6e50;     --sage-soft:rgba(122,143,107,.12);   --sage-line:rgba(122,143,107,.42);
+  --terra:#c16a4b;        --terra-deep:#a55337;    --terra-soft:rgba(193,106,75,.10);   --terra-line:rgba(193,106,75,.40);
+
+  --accent:var(--sage);   --accent-deep:var(--sage-deep);
+  --accent-soft:var(--sage-soft);   --accent-line:var(--sage-line);
+
+  --ok:#6e8e5e;           --warn:#c9944a;          --err:#b9635a;
+
+  --font-display:'DM Serif Display',Georgia,serif;
+  --font-body:'Inter',system-ui,-apple-system,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,monospace;
+
+  --max:1180px;
+  --radius-sm:6px;   --radius-md:10px;   --radius-lg:14px;   --radius-xl:20px;
+}
+
+html[data-os="linux"]{
+  --accent:var(--terra);  --accent-deep:var(--terra-deep);
+  --accent-soft:var(--terra-soft);  --accent-line:var(--terra-line);
+}
+
+/* ═══════════════════════════════════════════
+   🌙 MODE SOMBRE : Forêt nocturne & Terre profonde
+   Basculer via le bouton 🌙/☀️ dans la nav
+   ═══════════════════════════════════════════ */
+[data-theme="dark"]{
+  --paper:#161412;        --paper-2:#1e1b18;      --card:#262320;
+  --ink:#e6dbcf;          --ink-2:#b8ab9c;        --ink-3:#8a7e70;
+  --line:#38322d;         --line-2:#2d2925;
+
+  --dark:#0f0d0c;         --dark-2:#161412;        --dark-line:#2d2925;
+  --dark-ink:#e6dbcf;     --dark-mut:#8a7e70;
+
+  --sage:#7a9e6b;         --sage-deep:#5d7a50;
+  --sage-soft:rgba(122,158,107,.15);   --sage-line:rgba(122,158,107,.5);
+
+  --terra:#d47858;        --terra-deep:#b85a3a;
+  --terra-soft:rgba(212,120,88,.12);  --terra-line:rgba(212,120,88,.45);
+
+  --ok:#6e9a5e;           --warn:#d4a050;          --err:#c97a6b;
+}
+
+[data-theme="dark"] body::before{
+  background-image:
+    radial-gradient(circle at 18% 24%, rgba(122,158,107,.07) 0%, transparent 50%),
+    radial-gradient(circle at 82% 76%, rgba(201,148,74,.06) 0%, transparent 50%);
+}
+
+[data-theme="dark"] body::after{
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 38px, rgba(230,219,207,.025) 38px, rgba(230,219,207,.025) 39px),
+    repeating-linear-gradient(90deg, transparent, transparent 38px, rgba(230,219,207,.025) 38px, rgba(230,219,207,.025) 39px);
+}
+
+[data-theme="dark"] .nav{
+  background:rgba(22,20,18,.92);
+  border-bottom-color:var(--line);
+}
+
+[data-theme="dark"] .log{
+  background:rgba(255,255,255,.04);
+}
+
+[data-theme="dark"] .lb{
+  background:rgba(0,0,0,.35);
+}
+
+[data-theme="dark"] .log summary:hover{
+  background:rgba(255,255,255,.06);
+}
+
+[data-theme="dark"] .nav-links a:hover{
+  background:rgba(230,219,207,.07);
+}
+
+[data-theme="dark"] .arg:hover{
+  box-shadow:0 14px 34px -22px rgba(0,0,0,.6);
+}
+
+[data-theme="dark"] .block.dark{
+  background:linear-gradient(180deg, #0f0d0c 0%, #161412 100%);
+}
+
+[data-theme="dark"] .boot{
+  background:linear-gradient(165deg, #0f0d0c 0%, #161412 30%, #2a2420 65%, #3d322b 100%);
+}
+
+[data-theme="dark"] .seg.free{
+  background:repeating-linear-gradient(45deg,#2d2925 0 6px,#161412 6px 12px);
+}
+
+[data-theme="dark"] footer{
+  background:linear-gradient(180deg, #0f0d0c, #0a0908);
+}
+
+[data-theme="dark"] .ghost{
+  -webkit-text-stroke:1px rgba(230,219,207,.06);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb{
+  background:#4d443c;
+  border-color:var(--paper);
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover{
+  background:#5d544c;
+}
+
+[data-theme="dark"] .chip-ok{
+  background:rgba(110,154,94,.18);
+  color:#6aaa56;
+  border-color:rgba(110,154,94,.5);
+}
+
+[data-theme="dark"] .vol{
+  background:rgba(255,255,255,.03);
+}
+[data-theme="dark"] .vol:hover{
+  background:rgba(255,255,255,.06);
+}
+
+[data-theme="dark"] .arg-no,
+[data-theme="dark"] .crit-no{
+  color:rgba(230,219,207,.12);
+}
+
+[data-theme="dark"] .cmd,
+[data-theme="dark"] code{
+  background:rgba(0,0,0,.55);
+  color:#d6cfc5;
+}
+
+[data-theme="dark"] .cmd{
+  border-left-color:var(--accent-line);
+}
+
+[data-theme="dark"] .arrow::after{
+  border-top-color:rgba(230,219,207,.2);
+}
+
+[data-theme="dark"] .branch::before,
+[data-theme="dark"] .branch .node::before{
+  background:rgba(230,219,207,.15);
+}
+
+[data-theme="dark"] .fig{
+  box-shadow:0 18px 40px -28px rgba(0,0,0,.7);
+}
+
+[data-theme="dark"] .disk,
+[data-theme="dark"] .timer,
+[data-theme="dark"] .gantt,
+[data-theme="dark"] .gloss,
+[data-theme="dark"] .tl-detail,
+[data-theme="dark"] .callout{
+  box-shadow:0 18px 44px -30px rgba(0,0,0,.7);
+}
+
+[data-theme="dark"] ::selection{
+  background:var(--sage);
+  color:#161412;
+}
+
+[data-theme="dark"] .callout{
+  background:rgba(212,160,80,.06);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);color:var(--ink);background:var(--paper);
+  line-height:1.62;-webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden;
+  transition:background-color .35s ease, color .35s ease;
+}
+
+/* ── Fond organique : papier texturé chaud ── */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(circle at 18% 24%, rgba(122,143,107,.06) 0%, transparent 50%),
+    radial-gradient(circle at 82% 76%, rgba(193,106,75,.05) 0%, transparent 50%);
+}
+
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 38px, rgba(44,35,29,.025) 38px, rgba(44,35,29,.025) 39px),
+    repeating-linear-gradient(90deg, transparent, transparent 38px, rgba(44,35,29,.025) 38px, rgba(44,35,29,.025) 39px);
+}
+
+::selection{background:var(--sage);color:#fff}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-thumb{background:#c2b5a8;border-radius:8px;border:3px solid var(--paper)}
+::-webkit-scrollbar-thumb:hover{background:#a89888}
+::-webkit-scrollbar-track{background:transparent}
+
+img{max-width:100%;display:block}
+a{color:inherit}
+
+/* ── Barre de progression douce ── */
+#progress{position:fixed;top:0;left:0;height:4px;width:0;background:linear-gradient(90deg,var(--sage),var(--terra));z-index:1100;border-radius:0 3px 3px 0}
+
+/* ── Navigation : verre chaud ── */
+.nav{position:sticky;top:0;z-index:1000;background:rgba(242,236,230,.90);border-bottom:1px solid var(--line);backdrop-filter:blur(12px) saturate(1.15);transition:background-color .35s ease, border-color .35s ease}
+.nav-in{max-width:var(--max);margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;gap:18px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);white-space:nowrap}
+.logo{width:24px;height:24px;border-radius:7px;
+  background:linear-gradient(135deg,var(--sage) 50%,var(--terra) 50%);
+  flex:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.nav-links{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;flex:1}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);text-decoration:none;padding:8px 10px;border-radius:var(--radius-sm);white-space:nowrap;transition:.2s;position:relative}
+.nav-links a:hover{color:var(--ink);background:rgba(44,35,29,.06)}
+.nav-links a.on{color:var(--accent-deep)}
+.nav-links a.on::after{content:"";position:absolute;left:10px;right:10px;bottom:3px;height:2px;border-radius:1px;background:var(--accent)}
+.nav-right{display:flex;align-items:center;gap:12px;flex:none}
+.os-toggle{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card)}
+.os-btn{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:7px 11px;border:none;background:transparent;color:var(--ink-3);cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px}
+.os-btn .dot{width:8px;height:8px;border-radius:50%;background:#d6c9bc}
+.os-btn[data-os="macos"].on{background:var(--sage);color:#fff}
+.os-btn[data-os="macos"].on .dot{background:#fff}
+.os-btn[data-os="linux"].on{background:var(--terra);color:#fff}
+.os-btn[data-os="linux"].on .dot{background:#fff}
+.icon-btn{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink-2);cursor:pointer;transition:.2s;white-space:nowrap}
+.icon-btn:hover{border-color:var(--accent-line);color:var(--accent-deep);transform:translateY(-1px)}
+
+/* ── Hero : Terre & Soleil ── */
+.boot{position:relative;overflow:hidden;background:linear-gradient(165deg, #2c231d 0%, #3d322b 30%, #5a4a3d 65%, #7a5e4a 100%);color:var(--dark-ink);padding:118px 0 64px}
+.boot::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:
+    radial-gradient(920px 580px at 15% 12%, rgba(122,143,107,.13) 0%, transparent 60%),
+    radial-gradient(780px 520px at 88% 92%, rgba(193,106,75,.18) 0%, transparent 60%),
+    radial-gradient(600px 400px at 50% 50%, transparent 40%, rgba(44,35,29,.50) 100%);
+}
+
+/* Motif organique : petites spores / feuilles */
+.boot::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(2px 2px at 12% 18%, rgba(242,236,230,.12) 0%, transparent 100%),
+    radial-gradient(3px 3px at 28% 62%, rgba(242,236,230,.08) 0%, transparent 100%),
+    radial-gradient(2px 2px at 55% 28%, rgba(242,236,230,.10) 0%, transparent 100%),
+    radial-gradient(3px 3px at 72% 78%, rgba(242,236,230,.07) 0%, transparent 100%),
+    radial-gradient(2px 2px at 90% 40%, rgba(242,236,230,.09) 0%, transparent 100%),
+    radial-gradient(2px 2px at 40% 88%, rgba(242,236,230,.06) 0%, transparent 100%);
+}
+.boot .wrap{position:relative;z-index:2}
+.boot-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+
+/* ── Terminal : bois sombre chaud ── */
+.term{border:1px solid rgba(255,255,255,.08);border-radius:var(--radius-lg);background:rgba(22,18,15,.85);box-shadow:0 30px 70px -30px rgba(44,35,29,.8);overflow:hidden;cursor:pointer;
+  backdrop-filter:blur(4px);}
+.term-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;background:rgba(44,35,29,.6);border-bottom:1px solid rgba(255,255,255,.06)}
+.term-bar i{width:11px;height:11px;border-radius:50%}
+.term-bar .r{background:#e77a6b}.term-bar .y{background:#e8b86d}.term-bar .g{background:#7aab6b}
+.term-bar span{margin-left:8px;font-family:var(--font-mono);font-size:11px;color:var(--dark-mut)}
+.term-body{padding:18px 20px;min-height:300px;position:relative}
+#bootlog{font-family:var(--font-mono);font-size:12.5px;line-height:1.78;color:#d6d0c8;white-space:pre-wrap;word-break:break-word}
+.term-body::after{content:"▌";color:#9ab88a;animation:blink 1s steps(1) infinite;margin-left:1px}
+@keyframes blink{50%{opacity:0}}
+.term-hint{font-family:var(--font-mono);font-size:10px;color:#7a6e62;margin-top:12px;letter-spacing:.05em}
+
+/* ── Picker : volumes de démarrage ── */
+.picker{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.booted .picker{opacity:1;transform:none;transition-delay:.15s}
+.picker-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dark-mut);margin-bottom:16px}
+.vol{display:flex;align-items:center;gap:16px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);border-radius:var(--radius-md);padding:16px 18px;cursor:pointer;transition:.3s;text-decoration:none;color:var(--dark-ink);backdrop-filter:blur(4px)}
+.vol+.vol{margin-top:12px}
+.vol:hover{transform:translateY(-4px);background:rgba(255,255,255,.07)}
+.vol.mac:hover{border-color:rgba(122,143,107,.5);box-shadow:0 16px 40px -18px rgba(122,143,107,.5)}
+.vol.lin:hover{border-color:rgba(193,106,75,.5);box-shadow:0 16px 40px -18px rgba(193,106,75,.5)}
+.vol-ico{width:54px;height:54px;border-radius:14px;display:grid;place-items:center;flex:none;font-size:24px;font-family:var(--font-mono);font-weight:700;color:#fff}
+.vol.mac .vol-ico{background:linear-gradient(135deg,#7a8f6b,#5d6e50)}
+.vol.lin .vol-ico{background:linear-gradient(135deg,#c16a4b,#a55337)}
+.vol-txt b{font-family:var(--font-display);font-weight:400;font-size:17px;display:block}
+.vol-txt small{font-family:var(--font-mono);font-size:11px;color:var(--dark-mut)}
+.vol-arr{margin-left:auto;font-family:var(--font-mono);color:var(--dark-mut);opacity:0;transform:translateX(-6px);transition:.3s}
+.vol:hover .vol-arr{opacity:1;transform:none}
+
+/* ── Titre hero ── */
+.titleblock{margin-top:62px}
+.kicker{font-family:var(--font-mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#b5a898;margin-bottom:18px}
+h1{font-family:var(--font-display);font-weight:400;font-size:clamp(2.9rem,8vw,5.6rem);line-height:.93;letter-spacing:-.02em}
+h1 .stroke{color:transparent;-webkit-text-stroke:1.5px rgba(240,231,221,.7)}
+h1 .tag{display:inline-block;font-size:.22em;vertical-align:middle;border:1px solid var(--terra);color:#e8b89a;padding:6px 12px;border-radius:8px;margin-left:14px;letter-spacing:.1em;-webkit-text-stroke:0}
+.sub{max-width:660px;margin-top:22px;color:#bfb2a4;font-size:17px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chip{font-family:var(--font-mono);font-size:11px;border:1px solid rgba(255,255,255,.1);padding:7px 13px;border-radius:999px;color:#bfb2a4;display:flex;align-items:center;gap:7px}
+.chip .gd{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.scrollcue{margin-top:48px;font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dark-mut);display:flex;align-items:center;gap:10px}
+.scrollcue .ar{animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(5px)}}
+
+/* ── Sections générales ── */
+.block{position:relative;padding:96px 0;scroll-margin-top:62px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.block.alt{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+/* ── En-têtes de section ── */
+.sec-head{display:flex;align-items:flex-end;gap:24px;margin-bottom:54px;position:relative}
+.sec-tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:8px;display:block}
+.sec-head h2{font-family:var(--font-display);font-weight:400;font-size:clamp(1.9rem,4vw,2.85rem);letter-spacing:-.008em;line-height:1.04}
+.sec-rule{flex:1;height:1px;background:var(--line);position:relative;align-self:center;margin-bottom:8px}
+.sec-rule::after{content:"";position:absolute;right:0;top:-3px;width:9px;height:9px;border-radius:2px;background:var(--accent);transform:rotate(45deg)}
+.ghost{position:absolute;top:-26px;right:0;font-family:var(--font-display);font-weight:400;font-size:clamp(86px,13vw,148px);line-height:1;color:transparent;-webkit-text-stroke:1px rgba(44,35,29,.08);pointer-events:none;user-select:none;z-index:0}
+.lead{max-width:760px;font-size:17px;color:var(--ink-2);margin-bottom:8px}
+.lead strong{color:var(--ink)}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
+
+/* ── Mémo : mise en page ── */
+.memo{display:grid;grid-template-columns:380px 1fr;gap:48px;align-items:start}
+.memo-side{position:sticky;top:96px}
+.fig{position:relative;border:1px solid var(--line);background:var(--card);padding:10px;border-radius:var(--radius-md);box-shadow:0 18px 40px -28px rgba(44,35,29,.5)}
+.fig img{border-radius:4px}
+.fig figcaption{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);margin-top:10px;line-height:1.5}
+.fig::before,.fig::after{content:"";position:absolute;width:16px;height:16px;border:2px solid var(--accent);border-radius:2px}
+.fig::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+.fig::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+.decision{margin-top:18px;border-left:3px solid var(--accent);background:var(--accent-soft);padding:14px 16px;border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+.decision b{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-deep);display:block;margin-bottom:6px}
+.decision p{font-size:14px;color:var(--ink)}
+
+/* ── Arguments ── */
+.arg{display:grid;grid-template-columns:60px 1fr;gap:18px;border:1px solid var(--line);background:var(--card);padding:22px 24px;border-radius:var(--radius-md);transition:.25s;position:relative;overflow:hidden}
+.arg+.arg{margin-top:14px}
+.arg::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent);border-radius:0 2px 2px 0;transform:scaleY(0);transform-origin:top;transition:transform .3s}
+.arg:hover{border-color:var(--accent-line);transform:translateX(6px);box-shadow:0 14px 34px -22px rgba(44,35,29,.4)}
+.arg:hover::before{transform:scaleY(1)}
+.arg-no{font-family:var(--font-display);font-weight:400;font-size:30px;color:rgba(44,35,29,.16);transition:.22s;line-height:1}
+.arg:hover .arg-no{color:var(--accent)}
+.arg h3{font-family:var(--font-display);font-weight:400;font-size:19px;margin-bottom:6px}
+.arg p{font-size:14.5px;color:var(--ink-2)}
+
+/* ── Tableaux ── */
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius-md);background:var(--card);margin-top:42px}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:640px}
+thead th{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);text-align:left;padding:14px 16px;background:var(--paper);border-bottom:1px solid var(--line)}
+tbody td{padding:14px 16px;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tbody tr:last-child td{border-bottom:none}
+tbody td:first-child{font-weight:600;color:var(--ink);width:22%}
+th.win{background:var(--accent-soft);color:var(--accent-deep)}
+td.win{background:var(--accent-soft)}
+.ok{color:var(--ok);font-weight:700}.mid{color:var(--warn);font-weight:700}.no{color:var(--err);font-weight:700}
+.verdict td{background:var(--dark)!important;color:var(--dark-ink);font-family:var(--font-display);font-weight:400;font-size:15px}
+.verdict .ar{color:#9ab88a}
+
+/* ── Critères ── */
+.crit{display:grid;grid-template-columns:84px 1fr 1.25fr 104px;gap:24px;padding:26px 10px;border-top:1px solid var(--line);align-items:start;position:relative;transition:background .25s}
+.crit:last-child{border-bottom:1px solid var(--line)}
+.crit::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);border-radius:0 2px 2px 0;transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.crit:hover{background:var(--card)}
+.crit:hover::before{transform:scaleX(1)}
+.crit-no{font-family:var(--font-display);font-weight:400;font-size:34px;color:rgba(44,35,29,.13);transition:.22s;line-height:1}
+.crit:hover .crit-no{color:var(--accent)}
+.crit h3{font-family:var(--font-display);font-weight:400;font-size:20px;margin-bottom:10px}
+.fiche{font-family:var(--font-mono);font-size:12px;color:var(--ink-3);border-left:2px solid var(--line);padding-left:12px;line-height:1.55}
+.fiche b{display:block;color:var(--ink-2);margin-bottom:4px;letter-spacing:.04em}
+.crit ul{list-style:none;font-size:14px;color:var(--ink-2)}
+.crit li{padding-left:18px;position:relative;margin-bottom:5px}
+.crit li::before{content:"▸";position:absolute;left:0;color:var(--accent)}
+.chip-ok{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;background:rgba(110,142,94,.15);color:#3a5e2e;border:1px solid rgba(110,142,94,.45);padding:6px 11px;border-radius:999px;justify-self:end;white-space:nowrap}
+
+/* ── Sous-titres techniques ── */
+.sub{display:flex;gap:14px;align-items:baseline;margin:58px 0 22px;flex-wrap:wrap}
+.sub b{font-family:var(--font-mono);font-size:12px;color:var(--accent-deep);letter-spacing:.06em}
+.sub span{font-family:var(--font-display);font-weight:400;font-size:22px}
+.cap-toggle{margin-left:auto;display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card)}
+.cap-btn{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.06em;padding:8px 13px;border:none;background:transparent;color:var(--ink-3);cursor:pointer;transition:.2s}
+.cap-btn.on{background:var(--ink);color:var(--dark-ink)}
+.cap-btn:not(.on):hover{color:var(--accent-deep)}
+
+/* ── Spécifications ── */
+.specs{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius-md);overflow:hidden}
+.spec{background:var(--card);padding:15px 18px}
+.spec b{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+.spec span{font-family:var(--font-display);font-weight:400;font-size:15px}
+
+/* ── Grille technique ── */
+.tech-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:start;margin-top:24px}
+.callout{border:1px solid rgba(201,148,74,.4);background:rgba(201,148,74,.08);border-left:3px solid var(--warn);padding:15px 17px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:14px;color:var(--ink-2)}
+.callout b{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--warn);display:block;margin-bottom:7px}
+
+/* ── Plan de disque ── */
+.disk{border:1px solid var(--line);background:var(--card);border-radius:var(--radius-md);padding:26px;box-shadow:0 18px 44px -30px rgba(44,35,29,.5)}
+.plan-total{font-family:var(--font-mono);font-size:12px;color:var(--ink-2);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.plan-total::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--accent);box-shadow:0 0 8px var(--accent-line)}
+.disk-bar{display:flex;height:78px;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line-2)}
+.seg{position:relative;width:0;transition:width 1.1s cubic-bezier(.25,.8,.25,1) var(--sd,0s);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--font-mono);font-size:10.5px;cursor:default;overflow:hidden;white-space:nowrap;letter-spacing:.02em}
+.disk-bar.in .seg{width:var(--w)}
+.seg:hover{filter:brightness(1.08)}
+.seg .sl{position:relative;z-index:1}
+.seg.esp{background:#9aab9a}.seg.mac{background:var(--sage)}.seg.rec{background:#b5a898}.seg.ub{background:var(--terra)}.seg.sw{background:#8a7a6a}
+.seg.free{background:repeating-linear-gradient(45deg,#e5dad0 0 6px,#f2ece6 6px 12px);color:var(--ink-3)}
+.tip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(5px);
+  background:rgba(44,35,29,.96);color:var(--dark-ink);padding:10px 12px;border-radius:var(--radius-sm);
+  font-size:11.5px;line-height:1.5;opacity:0;pointer-events:none;transition:.2s;
+  min-width:190px;text-align:left;box-shadow:0 14px 30px -12px rgba(0,0,0,.6);z-index:6}
+.seg:hover .tip{opacity:1;transform:translateX(-50%)}
+.tip.l{left:0;transform:translateY(5px)}.seg:hover .tip.l{transform:none}
+.tip.r{left:auto;right:0;transform:translateY(5px)}.seg:hover .tip.r{transform:none}
+.tip::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:rgba(44,35,29,.96)}
+.tip.l::after{left:18px;transform:none}.tip.r::after{left:auto;right:18px;transform:none}
+.tip b{color:#9ab88a;display:block;margin-bottom:3px;font-family:var(--font-mono);font-size:10px;letter-spacing:.05em}
+.tip em{display:block;margin-top:5px;color:#b5c8a5;font-style:normal;font-size:10.5px;letter-spacing:.02em}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:18px;font-family:var(--font-mono);font-size:11px;color:var(--ink-3)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.note{font-size:13px;color:var(--ink-3);margin-top:14px;font-style:italic}
+
+/* ── Chaîne d'amorçage ── */
+.chain{display:flex;flex-direction:column;align-items:center}
+.node{border:1px solid var(--line);background:var(--card);border-radius:var(--radius-md);padding:14px 24px;font-family:var(--font-display);font-weight:400;font-size:15px;position:relative;min-width:280px;text-align:center;box-shadow:0 10px 26px -22px rgba(44,35,29,.5)}
+.node small{font-family:var(--font-body);font-weight:400;font-size:11px;color:var(--ink-3);display:block;margin-top:3px}
+.node.fw{background:var(--dark);color:var(--dark-ink);border-color:var(--dark-line)}
+.node.fw small{color:var(--dark-mut)}
+.node.rf{border-color:var(--accent-line);border-width:2px}
+.node.mac{border-left:4px solid var(--sage)}.node.lin{border-left:4px solid var(--terra)}
+.arrow{width:1px;height:26px;background:var(--ink);opacity:.25;position:relative}
+.arrow::after{content:"";position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:rgba(44,35,29,.25)}
+.branch{display:grid;grid-template-columns:1fr 1fr;gap:28px;width:100%;max-width:660px;position:relative}
+.branch::before{content:"";position:absolute;top:-13px;left:25%;right:25%;height:1px;background:rgba(44,35,29,.25)}
+.branch .node::before{content:"";position:absolute;top:-13px;left:50%;width:1px;height:13px;background:rgba(44,35,29,.25)}
+
+/* ── SVG interactifs ── */
+.svg-box{width:100%;max-width:800px;margin:0 auto;overflow:visible}
+.svg-box svg{width:100%;height:auto;display:block}
+.svg-box .s-node{cursor:pointer;transition:opacity .3s}
+.svg-box .s-node:hover{opacity:.85}
+.svg-box .s-node text{font-family:var(--font-body);font-weight:600;font-size:13px;fill:var(--ink)}
+.svg-box .s-node .s-sub{font-weight:400;font-size:10.5px;fill:var(--ink-3)}
+.svg-box .s-conn{stroke:var(--ink-3);stroke-width:1.5;fill:none;opacity:.35}
+.svg-box .s-arr{fill:var(--ink-3);opacity:.35}
+.svg-box .s-label{font-family:var(--font-mono);font-size:9px;fill:var(--ink-3);letter-spacing:.04em}
+.svg-box .s-glow{opacity:0;transition:opacity .4s}
+.svg-box .s-node:hover .s-glow{opacity:1}
+
+/* Barres de comparaison */
+.cmp-grid{display:grid;gap:0;margin-top:14px}
+.cmp-row{display:grid;grid-template-columns:130px 1fr 1fr;gap:14px;align-items:center;padding:10px 0;border-top:1px solid var(--line-2);position:relative}
+.cmp-row:last-child{border-bottom:1px solid var(--line-2)}
+.cmp-label{font-family:var(--font-mono);font-size:11px;color:var(--ink-3);letter-spacing:.04em;text-align:right}
+.cmp-bar-wrap{height:22px;border-radius:4px;background:var(--line-2);overflow:hidden;position:relative}
+.cmp-bar{height:100%;border-radius:4px;background:var(--sage);width:0;position:relative}
+.cmp-bar.dual{background:var(--sage)}
+.cmp-bar.vm{background:var(--terra)}
+@keyframes cmp-grow{from{width:0}to{width:var(--tw)}}
+#cmp-chart.in .cmp-bar{animation:cmp-grow 1s cubic-bezier(.25,.8,.25,1) forwards}
+.cmp-bar .cmp-val{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:var(--font-mono);font-size:9.5px;color:#fff;font-weight:600;opacity:0;transition:opacity .3s .8s}
+#cmp-chart.in .cmp-bar .cmp-val{opacity:1}
+.cmp-head{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;padding-bottom:4px;color:var(--ink-3)}
+.cmp-head.dual{color:var(--sage-deep)}
+.cmp-head.vm{color:var(--terra-deep)}
+
+[data-theme="dark"] .cmp-bar-wrap{background:var(--line)}
+[data-theme="dark"] .svg-box .s-node text{fill:var(--ink)}
+[data-theme="dark"] .svg-box .s-node .s-sub{fill:var(--ink-3)}
+[data-theme="dark"] .svg-box .s-conn{stroke:var(--ink-2)}
+
+/* ── Étapes ── */
+ol.steps{list-style:none;counter-reset:st;position:relative;padding:8px 0 8px 56px}
+ol.steps::before{content:"";position:absolute;left:27px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--accent-line),var(--line));border-radius:1px}
+ol.steps li{position:relative;padding:16px 0 16px 24px;border-top:none;margin-bottom:0;transition:.2s}
+
+ol.steps li::before{counter-increment:st;content:counter(st);position:absolute;left:-40px;top:16px;width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:var(--font-mono);font-size:12px;font-weight:600;border:3px solid var(--paper);box-shadow:0 0 0 2px var(--accent-line);transition:.3s}
+ol.steps li:hover::before{transform:scale(1.12);box-shadow:0 0 0 3px var(--accent),0 4px 12px rgba(122,143,107,.3)}
+ol.steps li::after{content:"";position:absolute;left:-24px;top:32px;width:16px;height:2px;background:var(--accent-line);opacity:.5}
+ol.steps li h4{font-family:var(--font-display);font-weight:400;font-size:17px;margin-bottom:6px;color:var(--ink)}
+ol.steps li p{font-size:14px;color:var(--ink-2);line-height:1.55}
+.cmd{display:block;margin-top:10px;background:rgba(44,35,29,.92);color:#e0d8ce;padding:10px 14px;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:12.5px;overflow-x:auto;border-left:3px solid var(--accent);white-space:pre}
+code{font-family:var(--font-mono);font-size:12px;background:rgba(44,35,29,.92);color:#e0d8ce;padding:2px 7px;border-radius:4px}
+
+/* ── Section sombre (journal) ── */
+.block.dark{background:linear-gradient(180deg, #2c231d 0%, #3d322b 100%);color:var(--dark-ink)}
+.block.dark::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:
+    radial-gradient(800px 480px at 80% 0%, rgba(122,143,107,.08) 0%, transparent 60%),
+    radial-gradient(600px 400px at 20% 100%, rgba(193,106,75,.06) 0%, transparent 50%);
+}
+.block.dark .ghost{-webkit-text-stroke:1px rgba(240,231,221,.06)}
+.block.dark .sec-rule{background:var(--dark-line)}
+.block.dark .sec-rule::after{background:var(--accent)}
+.block.dark .lead{color:#bfb2a4}
+
+/* ── Journal de bord : logs ── */
+.log{border:1px solid rgba(255,255,255,.06);border-radius:var(--radius-md);background:rgba(255,255,255,.03);overflow:hidden;backdrop-filter:blur(4px)}
+.log+.log{margin-top:12px}
+.log summary{display:grid;grid-template-columns:64px 96px 1fr 24px;gap:16px;align-items:center;padding:16px 20px;cursor:pointer;list-style:none;transition:background .2s}
+.log summary::-webkit-details-marker{display:none}
+.log summary:hover{background:rgba(255,255,255,.05)}
+.lvl{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;padding:4px 8px;border-radius:4px;text-align:center}
+.lvl.ok{background:rgba(110,142,94,.15);color:#7aab6b;border:1px solid rgba(110,142,94,.3)}
+.lvl.warn{background:rgba(201,148,74,.15);color:#e8b86d;border:1px solid rgba(201,148,74,.3)}
+.lvl.err{background:rgba(185,99,90,.15);color:#e77a6b;border:1px solid rgba(185,99,90,.3)}
+.lvl.info{background:rgba(154,184,138,.15);color:#9ab88a;border:1px solid rgba(154,184,138,.3)}
+.log .time{font-family:var(--font-mono);font-size:11px;color:var(--dark-mut)}
+.log .msg{font-family:var(--font-display);font-weight:400;font-size:15px}
+.chev{font-family:var(--font-mono);font-size:18px;color:var(--dark-mut);transition:transform .25s;text-align:center}
+.log[open] .chev{transform:rotate(45deg)}
+.log-body{margin:0 20px 20px;padding-top:16px;border-top:1px dashed rgba(255,255,255,.06);display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.lb{background:rgba(44,35,29,.5);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius-sm);padding:12px 14px}
+.lb.full{grid-column:1/-1;border-left:3px solid var(--accent)}
+.lb b{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:6px}
+.lb b.sy{color:#e8b86d}.lb b.dx{color:#9ab88a}.lb b.ca{color:#e77a6b}.lb b.so{color:#7aab6b}
+.lb p{font-size:13px;color:#bfb2a4}
+.lb code{background:rgba(44,35,29,.5);color:#d6d0c8}
+
+/* ── Timeline de présentation ── */
+.tl-wrap{position:relative;margin-bottom:18px}
+.tl-bar{display:flex;height:66px;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line)}
+.tl-seg{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;color:#fff;font-family:var(--font-mono);font-size:10.5px;cursor:pointer;transition:filter .2s;border-right:1px solid rgba(255,255,255,.2);position:relative}
+.tl-seg:last-child{border-right:none}
+.tl-seg small{opacity:.8;font-size:9px}
+.tl-seg:hover{filter:brightness(1.08)}
+.tl-seg.active{box-shadow:inset 0 0 0 2px var(--ink)}
+.tl-seg.s1{background:#b5a898;color:var(--ink)}.tl-seg.s2{background:#8a7a6a}.tl-seg.s3{background:var(--sage)}.tl-seg.s4{background:var(--terra)}.tl-seg.s5{background:#5d6e50}
+.tl-cursor{position:absolute;top:-7px;bottom:-7px;width:2px;background:var(--err);left:0;pointer-events:none;transition:left .2s linear;box-shadow:0 0 8px rgba(185,99,90,.6)}
+.tl-cursor::before{content:"";position:absolute;top:-1px;left:50%;transform:translateX(-50%);border:5px solid transparent;border-bottom-color:var(--err)}
+.tl-detail{border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--card);padding:18px 22px;border-radius:var(--radius-md);min-height:118px}
+.td-head{display:flex;align-items:baseline;gap:14px;margin-bottom:10px}
+.td-time{font-family:var(--font-mono);font-size:12px;color:var(--accent-deep)}
+.td-head h4{font-family:var(--font-display);font-weight:400;font-size:18px}
+.tl-detail ul{list-style:none;display:grid;gap:6px}
+.tl-detail li{font-size:14px;color:var(--ink-2);padding-left:18px;position:relative}
+.tl-detail li::before{content:"▸";position:absolute;left:0;color:var(--accent)}
+.tl-list{margin-top:24px}
+.tl-row{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:15px 12px;border-top:1px solid var(--line-2);cursor:pointer;transition:.2s;border-left:3px solid transparent;border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+.tl-row:last-child{border-bottom:1px solid var(--line-2)}
+.tl-row:hover{background:var(--card)}
+.tl-row.active{background:var(--accent-soft);border-left-color:var(--accent)}
+.tl-row .rt{font-family:var(--font-mono);font-size:13px;color:var(--accent-deep);padding-top:2px}
+.tl-row .rt b{display:block;font-family:var(--font-body);font-size:11px;color:var(--ink-3);margin-top:3px;letter-spacing:.04em}
+.tl-row .rb h5{font-family:var(--font-display);font-weight:400;font-size:15.5px;margin-bottom:4px}
+.tl-row .rb p{font-size:13px;color:var(--ink-3)}
+
+/* ── Chronomètre ── */
+.timer{display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:center;border:1px solid var(--line);background:var(--card);border-radius:var(--radius-md);padding:24px 28px;margin-top:34px;box-shadow:0 18px 44px -30px rgba(44,35,29,.5)}
+#t-time{font-family:var(--font-mono);font-weight:600;font-size:clamp(2.6rem,6vw,3.7rem);letter-spacing:.02em;font-variant-numeric:tabular-nums;line-height:1}
+#t-time.warn{color:var(--err);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.55}}
+.t-meta b{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
+#t-status{font-size:14px;color:var(--ink-2)}
+.btns{display:flex;gap:10px}
+.btn{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:12px 18px;border-radius:var(--radius-sm);border:1px solid var(--ink);background:var(--ink);color:#fff;cursor:pointer;transition:.25s;white-space:nowrap}
+.btn:hover{background:var(--accent);border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 20px -10px var(--accent-line)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:transparent;border-color:var(--accent-line);color:var(--accent-deep);box-shadow:none}
+
+/* ── Checklist ── */
+.chk-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 28px;margin-top:30px}
+.chk{display:flex;gap:11px;align-items:center;font-size:14px;cursor:pointer;user-select:none;transition:.18s}
+.chk i{width:18px;height:18px;border:1.5px solid var(--ink-3);border-radius:5px;flex:none;display:grid;place-items:center;transition:.2s}
+.chk i::after{content:"✓";color:#fff;font-size:11px;opacity:0;transition:.15s}
+.chk.done i{background:var(--sage);border-color:var(--sage)}
+.chk.done i::after{opacity:1}
+.chk.done span{color:var(--ink-3);text-decoration:line-through}
+.chk:hover i{border-color:var(--accent)}
+
+/* ── Gantt ── */
+.gantt{border:1px solid var(--line);border-radius:var(--radius-md);background:var(--card);overflow-x:auto}
+.g-in{min-width:780px}
+.g-row{display:grid;grid-template-columns:230px repeat(8,minmax(58px,1fr));border-top:1px solid var(--line-2)}
+.g-row:first-child{border-top:none}
+.g-head{font-family:var(--font-mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);padding:12px 14px;border-right:1px solid var(--line-2)}
+.g-head span{display:block;font-size:9px;color:var(--ink-3);opacity:.7;margin-top:2px;letter-spacing:0}
+.g-head:first-child{color:var(--ink-2)}
+.g-task{padding:13px 16px;font-size:13.5px;font-weight:600;display:flex;align-items:center;border-right:1px solid var(--line-2);color:var(--ink)}
+.g-track{grid-column:2/-1;display:grid;grid-template-columns:repeat(8,1fr);align-items:center;padding:7px 0;position:relative;background-image:linear-gradient(90deg,var(--line-2) 1px,transparent 1px);background-size:12.5% 100%}
+.bar{height:20px;border-radius:4px;margin:0 4px;transition:.2s;cursor:default}
+.bar:hover{filter:brightness(1.1);transform:scaleY(1.18)}
+.b-prep{background:#b5a898}.b-exec{background:var(--sage)}.b-rec{background:var(--terra)}.b-write{background:#6b5c50}.b-rep{background:var(--sage-deep)}
+.ms{display:grid;place-items:center;color:var(--sage);font-size:18px}
+.g-legend{display:flex;flex-wrap:wrap;gap:18px;margin-top:18px;font-family:var(--font-mono);font-size:11px;color:var(--ink-3)}
+.g-legend i{display:inline-block;width:14px;height:8px;border-radius:3px;margin-right:7px;vertical-align:0}
+
+/* ── Ressources ── */
+.res{border-top:1px solid var(--line)}
+.res a{display:grid;grid-template-columns:42px 1fr auto;gap:16px;padding:17px 12px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);transition:.2s;align-items:baseline}
+.res a:hover{background:var(--card);transform:translateX(6px)}
+.res .ri{font-family:var(--font-mono);font-size:12px;color:var(--ink-3)}
+.res .rt b{font-family:var(--font-display);font-weight:400;font-size:16px;display:block}
+.res .rt small{font-size:13px;color:var(--ink-3)}
+.res .ru{font-family:var(--font-mono);font-size:12px;color:var(--accent-deep);white-space:nowrap}
+.res .ru::after{content:" ↗";opacity:0;transition:.2s}
+.res a:hover .ru::after{opacity:1}
+.gloss{margin-top:30px;border:1px solid var(--line);background:var(--card);border-radius:var(--radius-md);padding:18px 22px;font-size:14px;color:var(--ink-2)}
+.gloss b{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-deep);display:block;margin-bottom:8px}
+.gloss code{margin:0 2px}
+
+/* ── Footer ── */
+footer{background:linear-gradient(180deg, #2c231d, #1f1915);color:var(--dark-mut);padding:42px 0}
+.foot-in{max-width:var(--max);margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.foot-in .fl{font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;line-height:1.7}
+.foot-in .fl b{color:var(--dark-ink)}
+.print-btn{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:11px 16px;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:transparent;color:var(--dark-ink);cursor:pointer;transition:.25s}
+.print-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── Bouton mode sombre ── */
+.theme-btn{font-size:16px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);cursor:pointer;transition:.25s;display:grid;place-items:center;line-height:1;padding:0}
+.theme-btn:hover{background:var(--accent-soft);border-color:var(--accent-line);transform:scale(1.08)}
+.theme-btn:active{transform:scale(.92)}
+
+/* ═══════════════════════════════════════════
+   🎤 MODE PRÉSENTATEUR : Plein écran soutenance
+   ═══════════════════════════════════════════ */
+.presenter-overlay{position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;
+  background:linear-gradient(160deg,#0a0908 0%,#121010 40%,#1a1715 100%);color:#e6dbcf;
+  font-family:var(--font-body);padding:0;overflow:hidden;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .4s ease, visibility 0s .4s;}
+.presenter-overlay.open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .4s ease, visibility 0s 0s;}
+.presenter-overlay::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:
+    radial-gradient(800px 500px at 15% 20%, rgba(122,158,107,.05) 0%, transparent 55%),
+    radial-gradient(600px 400px at 85% 80%, rgba(212,120,88,.06) 0%, transparent 55%),
+    radial-gradient(400px 300px at 50% 50%, rgba(230,219,207,.02) 0%, transparent 60%);
+  z-index:0;}
+
+/* ── Barre supérieure ── */
+.p-top{position:relative;z-index:2;display:flex;align-items:center;gap:16px;
+  padding:20px 36px;border-bottom:1px solid rgba(230,219,207,.05);}
+.p-dots{display:flex;gap:12px;flex:1;justify-content:center;}
+.p-dot{width:14px;height:14px;border-radius:50%;border:2px solid rgba(230,219,207,.15);
+  background:transparent;cursor:pointer;transition:.35s cubic-bezier(.2,.7,.2,1);position:relative;}
+.p-dot:hover{border-color:rgba(230,219,207,.4);transform:scale(1.15)}
+.p-dot.active{background:var(--sage);border-color:var(--sage);
+  box-shadow:0 0 16px rgba(122,158,107,.5),0 0 4px rgba(122,158,107,.8);transform:scale(1.2)}
+.p-dot.done{background:rgba(122,158,107,.25);border-color:rgba(122,158,107,.35)}
+.p-dot::after{content:attr(data-label);position:absolute;top:calc(100% + 10px);left:50%;
+  transform:translateX(-50%);font-family:var(--font-mono);font-size:9px;
+  letter-spacing:.04em;color:rgba(230,219,207,.3);white-space:nowrap;transition:color .3s}
+.p-dot.active::after{color:rgba(230,219,207,.7)}
+.p-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;
+  color:rgba(230,219,207,.3);white-space:nowrap;}
+.p-exit{width:42px;height:42px;border-radius:50%;border:1px solid rgba(230,219,207,.1);
+  background:rgba(230,219,207,.03);color:rgba(230,219,207,.4);cursor:pointer;
+  transition:.3s;display:grid;place-items:center;font-size:18px;flex:none;}
+.p-exit:hover{background:rgba(185,99,90,.15);border-color:rgba(185,99,90,.3);color:#e77a6b;transform:rotate(90deg)}
+
+/* ── Zone centrale ── */
+.p-main{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:40px 80px;
+  max-width:1200px;margin:0 auto;width:100%;}
+.p-time{font-family:var(--font-mono);font-weight:600;
+  font-size:clamp(5rem,16vw,12rem);letter-spacing:.02em;
+  font-variant-numeric:tabular-nums;line-height:1;margin-bottom:6px;
+  transition:color .3s;background:linear-gradient(180deg,#e6dbcf 20%,rgba(230,219,207,.5) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.p-time.warn{-webkit-text-fill-color:var(--err);animation:pulse-pres 1s ease-in-out infinite;}
+@keyframes pulse-pres{50%{opacity:.4}}
+.p-sep{width:100px;margin:16px auto 24px;overflow:visible;}
+.p-sep span{display:block;height:3px;border-radius:2px;
+  background:linear-gradient(90deg,var(--sage),var(--terra));box-shadow:0 0 12px rgba(122,158,107,.3)}
+.p-title{font-family:var(--font-display);font-weight:400;
+  font-size:clamp(1.8rem,4.5vw,3.6rem);color:#e6dbcf;margin-bottom:28px;
+  letter-spacing:-.01em;line-height:1.1;}
+.p-points{list-style:none;display:grid;gap:16px;
+  max-width:700px;text-align:left;margin:0 auto;padding-left:4px}
+.p-points li{font-size:clamp(1.05rem,2.2vw,1.35rem);color:rgba(230,219,207,.85);
+  padding-left:32px;position:relative;line-height:1.55;
+  border-left:2px solid transparent;padding-top:2px;padding-bottom:2px;transition:.3s}
+.p-points li::before{content:"→";position:absolute;left:4px;color:var(--sage);
+  font-weight:700;font-size:1.1em}
+.p-points li:hover{color:#e6dbcf;border-left-color:var(--sage);padding-left:36px}
+
+/* ── Barre inférieure ── */
+.p-bottom{position:relative;z-index:2;display:flex;align-items:center;
+  padding:20px 36px;border-top:1px solid rgba(230,219,207,.05);gap:20px;}
+.p-nav{border:1px solid rgba(230,219,207,.1);background:rgba(230,219,207,.03);
+  color:rgba(230,219,207,.6);padding:14px 24px;border-radius:10px;cursor:pointer;
+  transition:.25s;font-family:var(--font-mono);font-size:12px;
+  letter-spacing:.04em;display:flex;align-items:center;gap:10px;
+  backdrop-filter:blur(8px)}
+.p-nav:hover{background:rgba(122,158,107,.1);border-color:var(--sage-line);
+  color:#e6dbcf;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.p-nav:disabled{opacity:.15;cursor:default;transform:none!important;border-color:rgba(230,219,207,.04);background:transparent}
+.p-hint{flex:1;text-align:center;font-family:var(--font-mono);font-size:11px;
+  color:rgba(230,219,207,.2);letter-spacing:.04em;}
+.p-hint kbd{display:inline-block;padding:4px 8px;border:1px solid rgba(230,219,207,.08);
+  border-radius:5px;font-family:inherit;font-size:10px;margin:0 3px;
+  background:rgba(230,219,207,.03);color:rgba(230,219,207,.4);}
+
+@media(max-height:580px){
+  .p-main{padding:16px 40px}
+  .p-time{font-size:clamp(3rem,10vw,5rem)}
+  .p-points li{font-size:clamp(.85rem,1.6vw,1rem);gap:8px}
+  .p-title{font-size:clamp(1.2rem,3vw,1.8rem)}
+  .p-points{max-width:500px}
+}
+
+@media(max-height:580px){
+  .p-main{padding:20px 40px;}
+  .p-time{font-size:clamp(3rem,10vw,5rem);}
+  .p-points li{font-size:clamp(.9rem,1.6vw,1rem);gap:8px;}
+  .p-title{font-size:clamp(1.2rem,3vw,1.8rem);}
+  .p-points{max-width:500px;}
+}
+
+/* ── Back-to-top bouton ── */
+.btt{position:fixed;right:22px;bottom:22px;width:46px;height:46px;border-radius:50%;background:var(--dark);color:#fff;opacity:0;pointer-events:none;transition:.35s;z-index:900;display:grid;place-items:center;border:none;cursor:pointer;font-size:18px;box-shadow:0 12px 30px -10px rgba(0,0,0,.5)}
+.btt.show{opacity:1;pointer-events:auto}
+.btt:hover{background:var(--accent);transform:translateY(-3px);box-shadow:0 12px 30px -10px var(--accent-line)}
+
+/* ── Responsive ── */
+@media(max-width:980px){
+  .boot-grid{grid-template-columns:1fr;gap:28px}
+  .memo{grid-template-columns:1fr;gap:30px}
+  .memo-side{position:static}
+  .crit{grid-template-columns:60px 1fr;row-gap:14px}
+  .crit .fiche{grid-column:2}.crit ul{grid-column:2}.crit .chip-ok{grid-column:2;justify-self:start}
+  .specs{grid-template-columns:repeat(2,1fr)}
+  .tech-grid{grid-template-columns:1fr}
+  .timer{grid-template-columns:1fr;text-align:center;gap:18px}
+  .btns{justify-content:center}
+  .nav-links{order:3}
+}
+@media(max-width:640px){
+  .block{padding:70px 0}
+  .sec-head{flex-direction:column;align-items:flex-start;gap:14px}
+  .sec-rule{display:none}
+  .arg{grid-template-columns:1fr;gap:8px}
+  .log summary{grid-template-columns:56px 1fr 22px;row-gap:6px}
+  .log .time{grid-column:1/-1;order:3}
+  .log-body{grid-template-columns:1fr}
+  .tl-row{grid-template-columns:1fr;gap:6px}
+  .chk-grid{grid-template-columns:1fr}
+  .branch{grid-template-columns:1fr;gap:14px}
+  .branch::before{display:none}
+  .seg .sl{font-size:0}
+  .seg.mac .sl,.seg.ub .sl{font-size:9px}
+  .nav-links{display:none}
+  .cap-toggle{margin-left:0}
+}
+
+/* ═══════════════════════════════════════════
+   🖨️  IMPRESSION / PDF : Mise en page optimisée
+   ═══════════════════════════════════════════ */
+@page{size:A4;margin:12mm 15mm}
+@media print{
+  /* ═══ Réinitialisation générale ═══ */
+  *{background:transparent!important;color:#000!important;box-shadow:none!important;text-shadow:none!important;transition:none!important;animation:none!important}
+  body{font-size:10pt;line-height:1.45;background:#fff!important}
+  body::before,body::after{display:none!important}
+  html{scroll-behavior:auto!important}
+
+  /* ═══ Mise en page ═══ */
+  @page{size:A4;margin:18mm 15mm 20mm 15mm}
+  @page :first{margin-top:12mm}
+
+  /* ═══ Cacher éléments interactifs / décoratifs ═══ */
+  .nav,#progress,.boot .picker,.scrollcue,.btns,.btt,
+  .os-toggle,.icon-btn,.print-btn,.cap-toggle,.theme-btn,
+  .presenter-overlay,.s-glow,.term,.picker,
+  #presenter-btn,#t-start,#t-reset,
+  .branch::before,.branch .node::before,
+  .tl-cursor,#tl-detail,
+  .arrow{display:none!important}
+
+  /* ═══ Forcer visibilité des animations ═══ */
+  .reveal{opacity:1!important;transform:none!important}
+  .disk-bar .seg{width:var(--w)!important}
+  .cmp-bar{width:var(--tw,50%)!important}
+
+  /* ═══ Hero : compact ═══ */
+  .boot{background:none!important;color:#000!important;padding:8mm 0 4mm!important;page-break-after:avoid}
+  .boot::before,.boot::after{display:none!important}
+  .boot .wrap{padding:0 2mm}
+  .boot-grid{display:block!important;gap:0!important}
+  h1{font-size:24pt!important;-webkit-text-stroke:0!important;color:#000!important;line-height:1!important}
+  h1 .stroke{-webkit-text-stroke:0!important;color:#000!important}
+  h1 .tag{border-color:#999!important;color:#555!important;font-size:.4em!important}
+  .kicker{color:#555!important;margin-bottom:4mm!important}
+  .titleblock{margin-top:4mm!important}
+  .chips{gap:3px!important;margin-top:4mm!important}
+  .chip{border-color:#ccc!important;color:#333!important;padding:3px 8px!important;font-size:8pt!important}
+  .chip .gd{background:#000!important;box-shadow:none!important}
+  .sub{color:#333!important;max-width:100%;margin-top:3mm!important;font-size:10pt!important}
+
+  /* ═══ Sections ═══ */
+  .block{padding:5mm 0!important;background:none!important;border:none!important}
+  .block.alt,.block.dark{background:none!important;color:#000!important;border:none!important}
+  .block.dark::before,.block.dark::after{display:none!important}
+  .wrap{padding:0 2mm!important;max-width:100%!important}
+
+  /* ═══ Sauts de page ═══ */
+  #cadrage{page-break-before:auto}
+  #conformite,#technique,#journal,#soutenance,#planning,#ressources{page-break-before:always}
+  h2,h3,h4{page-break-after:avoid!important}
+  .table-wrap,.chain,.fig,.disk,.gantt{page-break-inside:avoid!important}
+  .arg,.crit,.log,.res a{page-break-inside:avoid}
+  ol.steps li{page-break-inside:avoid}
+  .g-row{page-break-inside:avoid}
+
+  /* ═══ En-têtes ═══ */
+  .sec-head{margin-bottom:6mm!important;gap:8px!important}
+  .sec-tag{color:#555!important;font-size:8pt!important}
+  .sec-head h2{font-size:16pt!important}
+  .ghost{display:none!important}
+  .sec-rule{display:none!important}
+  .lead{max-width:100%!important;font-size:10pt!important;color:#333!important;margin-bottom:4mm!important}
+
+  /* ═══ Tableaux ═══ */
+  .table-wrap{overflow:visible!important;border:1px solid #ccc!important;margin-top:6mm!important}
+  table{min-width:0!important;width:100%!important;font-size:8.5pt!important}
+  thead th{background:#f0f0f0!important;border-bottom:2px solid #999!important;color:#000!important;padding:4px 6px!important;font-size:7.5pt!important}
+  tbody td{border-bottom:1px solid #ddd!important;color:#000!important;padding:4px 6px!important}
+  td.win{background:#f5f5f5!important}
+  th.win{background:#eee!important;color:#000!important}
+  .verdict td{background:#f0f0f0!important;color:#000!important;font-size:9pt!important}
+  .ok{color:#060!important}.mid{color:#960!important}.no{color:#c00!important}
+
+  /* ═══ Spécifications ═══ */
+  .specs{border:1px solid #ccc!important;gap:0!important;grid-template-columns:repeat(2,1fr)!important}
+  .spec{padding:4px 8px!important}
+  .spec span{font-size:9pt!important}
+  .spec b{color:#555!important;font-size:7pt!important}
+
+  /* ═══ Arguments et critères ═══ */
+  .memo{display:block!important;gap:0!important}
+  .memo-side{position:static!important;margin-bottom:4mm!important}
+  .arg{padding:6px 10px!important;border:1px solid #ddd!important;margin-top:3px!important}
+  .arg h3{font-size:11pt!important}
+  .arg p{font-size:9pt!important}
+  .arg-no,.crit-no{color:#bbb!important;font-size:18pt!important}
+  .arg::before,.crit::before{display:none!important}
+  .crit{padding:5mm 4px!important;grid-template-columns:36px 1fr 1.25fr 80px!important;gap:8px!important}
+  .crit h3{font-size:11pt!important}
+  .crit ul{font-size:9pt!important}
+  .fiche{border-left-color:#ddd!important;color:#555!important;font-size:8.5pt!important}
+  .chip-ok{border-color:#aaa!important;color:#555!important;font-size:7pt!important;padding:3px 6px!important}
+  .decision{border-left-color:#999!important;background:#f5f5f5!important}
+
+  /* ═══ Grille technique ═══ */
+  .tech-grid{display:block!important;gap:0!important;margin-top:4mm!important}
+  .callout{padding:4mm!important;border:1px solid #ccc!important;border-left:3px solid #999!important;margin-top:3mm!important;font-size:9pt!important}
+
+  /* ═══ Plan de disque ═══ */
+  .disk{padding:4mm!important;border:1px solid #ccc!important;margin-top:4mm!important}
+  .disk-bar{border:1px solid #ccc!important;height:28px!important}
+  .disk-bar.in .seg,.disk-bar .seg{width:var(--w)!important;border-right:1px solid rgba(0,0,0,.1)!important}
+  .seg{color:#fff!important}
+  .seg.free{background:repeating-linear-gradient(45deg,#eee 0 4px,#fff 4px 8px)!important;color:#666!important}
+  .tip{display:none!important}
+  .plan-total::before{background:#000!important;box-shadow:none!important}
+  .legend{font-size:8pt!important}
+  .legend i{border:1px solid #999!important}
+  .note{font-size:8pt!important}
+
+  /* ═══ Chaîne d'amorçage ═══ */
+  .chain{page-break-inside:avoid!important}
+  .node{min-width:0!important;padding:4px 10px!important;border:1px solid #ccc!important;font-size:9pt!important}
+  .node.fw{background:#f0f0f0!important;border-color:#ccc!important}
+  .node small{color:#555!important;font-size:8pt!important}
+  .node.rf{border-width:1px!important;border-color:#999!important}
+
+  /* ═══ SVG et graphiques ═══ */
+  .svg-box svg{max-width:100%!important;height:auto!important}
+  .svg-box .s-node text{fill:#000!important}
+  .svg-box .s-node .s-sub{fill:#555!important}
+  .svg-box .s-conn{stroke:#999!important}
+  .svg-box .s-arr{fill:#999!important}
+  .svg-box .s-label{fill:#666!important}
+  .svg-box .s-glow{display:none!important}
+
+  /* ═══ Barres de comparaison ═══ */
+  .cmp-grid{margin-top:2mm!important}
+  .cmp-row{padding:3px 0!important;border-color:#ddd!important}
+  .cmp-label{color:#333!important;font-size:8pt!important}
+  .cmp-bar-wrap{background:#f0f0f0!important;height:14px!important}
+  .cmp-bar{height:100%!important}
+  .cmp-bar.dual{background:#555!important}
+  .cmp-bar.vm{background:#999!important}
+  .cmp-bar .cmp-val{opacity:1!important;color:#fff!important;font-size:7pt!important}
+  .cmp-head{color:#555!important;font-size:7pt!important}
+  .cmp-head.dual{color:#000!important}.cmp-head.vm{color:#000!important}
+
+  /* ═══ Journal de bord ═══ */
+  .log{border:1px solid #ccc!important;margin-top:3mm!important}
+  .log summary{padding:4mm 5mm!important;grid-template-columns:40px 64px 1fr!important}
+  .log[open] summary{display:none!important}
+  .log-body{display:block!important;margin:2mm 5mm 4mm!important}
+  .lb{background:#f8f8f8!important;border:1px solid #eee!important;margin-bottom:2mm!important;padding:4mm!important}
+  .lb.full{border-left:3px solid #999!important}
+  .lb p{color:#333!important;font-size:9pt!important}
+  .lvl{border-color:#ccc!important;color:#333!important;background:#f5f5f5!important;font-size:7pt!important}
+  .log .msg{color:#000!important;font-size:10pt!important}
+  .log .time{color:#666!important;font-size:8pt!important}
+  .chev{display:none!important}
+
+  /* ═══ Timeline de soutenance ═══ */
+  .tl-wrap{margin-bottom:3mm!important}
+  .tl-bar{height:24px!important;border:1px solid #ccc!important}
+  .tl-seg{font-size:7.5pt!important;padding:2px 4px!important}
+  .tl-seg small{font-size:6.5pt!important}
+  .tl-cursor{display:none!important}
+  #tl-detail{display:none!important}
+  .tl-list{margin-top:3mm!important}
+  .tl-row{padding:3mm 4px!important;grid-template-columns:80px 1fr!important;gap:8px!important;border-color:#ddd!important}
+  .tl-row .rt{font-size:9pt!important}
+  .tl-row .rt b{font-size:7pt!important}
+  .tl-row .rb h5{font-size:10pt!important}
+  .tl-row .rb p{font-size:8.5pt!important}
+
+  /* ═══ Chronomètre ═══ */
+  .timer{border:1px solid #ccc!important;padding:3mm!important;display:block!important;margin-top:3mm!important}
+  #t-time{font-size:14pt!important}
+  .t-meta b{font-size:7pt!important}
+  #t-status{font-size:9pt!important}
+
+  /* ═══ Checklist ═══ */
+  .chk-grid{grid-template-columns:1fr 1fr!important;gap:1px 10px!important;margin-top:4mm!important}
+  .chk{font-size:9pt!important}
+  .chk i{border-color:#999!important;width:14px!important;height:14px!important}
+  .chk.done i{background:#000!important;border-color:#000!important}
+
+  /* ═══ Étapes ═══ */
+  ol.steps li{padding:3mm 4px!important}
+  ol.steps li h4{font-size:10pt!important}
+  ol.steps li p{font-size:9pt!important}
+  .cmd{background:#f0f0f0!important;color:#333!important;padding:3px 6px!important;font-size:7.5pt!important;border-left-color:#999!important}
+  code{background:#f0f0f0!important;color:#333!important;font-size:8pt!important}
+  ol.steps li::before{border-color:#999!important;color:#555!important;background:transparent!important;width:22px!important;height:22px!important;font-size:7pt!important}
+
+  /* ═══ Gantt ═══ */
+  .gantt{border:1px solid #ccc!important;margin-top:4mm!important}
+  .g-in{min-width:0!important}
+  .g-row{border-color:#ddd!important}
+  .g-head{color:#555!important;padding:3px 5px!important;font-size:7pt!important}
+  .g-head span{font-size:6pt!important}
+  .g-head:first-child{color:#333!important}
+  .g-task{padding:3px 5px!important;font-size:8pt!important;color:#000!important}
+  .g-track{background-image:linear-gradient(90deg,#ddd 1px,transparent 1px)!important;padding:3px 0!important}
+  .bar{height:10px!important}
+  .b-prep{background:#bbb!important}.b-exec{background:#666!important}
+  .b-rec{background:#999!important}.b-write{background:#888!important}
+  .b-rep{background:#555!important}
+  .ms{color:#555!important;font-size:12pt!important}
+  .g-legend{font-size:8pt!important;margin-top:4mm!important}
+  .g-legend i{border:1px solid #999!important}
+
+  /* ═══ Ressources ═══ */
+  .res a{padding:3mm 4px!important;border-color:#ddd!important;color:#000!important}
+  .res a:hover{transform:none!important}
+  .res .ru::after{content:""!important;opacity:1!important}
+  .res .ru{color:#555!important}
+  .res .rt b{font-size:10pt!important}
+  .res .rt small{font-size:8.5pt!important}
+  .gloss{border:1px solid #ccc!important;padding:4mm!important;font-size:9pt!important}
+  .gloss b{color:#555!important}
+  .gloss code{background:#f0f0f0!important;color:#333!important}
+
+  /* ═══ Footer ═══ */
+  footer{background:none!important;color:#555!important;padding:4mm 0!important;border-top:1px solid #ccc!important}
+  .foot-in .fl b{color:#000!important}
+  .foot-in .fl{font-size:8pt!important}
+
+  /* ═══ Images ═══ */
+  img{max-width:100%!important;page-break-inside:avoid!important}
+
+  /* ═══ Liens — afficher l'URL ═══ */
+  a[href]:not(.vol):not(.nav-links a){text-decoration:underline!important}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<header class="nav">
+  <div class="nav-in">
+    <div class="brand"><span class="logo"></span>TFE · DB-01 · MBA15</div>
+    <nav class="nav-links">
+      <a href="#cadrage">Cadrage</a>
+      <a href="#conformite">Conformité</a>
+      <a href="#technique">Technique</a>
+      <a href="#journal">Journal</a>
+      <a href="#soutenance">Soutenance</a>
+      <a href="#planning">Planning</a>
+      <a href="#ressources">Ressources</a>
+    </nav>
+    <div class="nav-right">
+      <div class="os-toggle" role="group" aria-label="Basculer l'accent du système">
+        <button class="os-btn on" data-os="macos"><span class="dot"></span>macOS</button>
+        <button class="os-btn" data-os="linux"><span class="dot"></span>Linux</button>
+      </div>
+      <button class="theme-btn" data-theme-toggle aria-label="Basculer le mode sombre">🌙</button>
+      <button class="icon-btn" data-print>⎙ PDF</button>
+    </div>
+  </div>
+</header>
+
+<section class="boot" id="boot">
+  <div class="wrap">
+    <div class="boot-grid">
+      <div class="term" title="Cliquer pour passer l'animation">
+        <div class="term-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span>rEFInd — EFI boot manager</span></div>
+        <div class="term-body"><pre id="bootlog"></pre></div>
+      </div>
+      <div class="picker">
+        <div class="picker-label">Choisir un volume de démarrage :</div>
+        <a class="vol mac" data-target="#technique">
+          <span class="vol-ico">⌘</span>
+          <span class="vol-txt"><b>macOS 12 Monterey</b><small>APFS · disk0s2 · 60 Go</small></span>
+          <span class="vol-arr">→</span>
+        </a>
+        <a class="vol lin" data-target="#journal">
+          <span class="vol-ico">&gt;_</span>
+          <span class="vol-txt"><b>Ubuntu 22.04 LTS</b><small>ext4 · disk0s4 · 48 Go</small></span>
+          <span class="vol-arr">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="titleblock reveal">
+      <span class="kicker">Travail de fin d'études — 2026 · 2027</span>
+      <h1>DUAL-BOOT<br><span class="stroke">MAC INTEL</span><span class="tag">× LINUX</span></h1>
+      <p class="sub">Installation et configuration d'un double amorçage macOS / Linux sur un <strong style="color:#f0e7dd">MacBook Air 13" Early 2015</strong> — analyse de la situation, actes techniques et résolution de dysfonctionnements sur architecture Intel (EFI).</p>
+      <div class="chips">
+        <span class="chip"><span class="gd"></span>Sujet n°1 — validé fiche officielle</span>
+        <span class="chip">MacBook Air 13" Early 2015 · A1466 · 8 Go</span>
+        <span class="chip">Soutenance · 15 min + questions</span>
+        <span class="chip">EFI · GPT · rEFInd · GRUB</span>
+        <span class="chip">APFS · ext4 · ESP partagée</span>
+      </div>
+    </div>
+
+    <div class="scrollcue"><span class="ar">▼</span> défiler — le dossier commence</div>
+  </div>
+</section>
+
+<main>
+
+<section class="block" id="cadrage">
+  <div class="wrap">
+    <span class="ghost">01</span>
+    <header class="sec-head reveal">
+      <div><span class="sec-tag">§ 01 — Note de cadrage</span><h2>Pourquoi ce sujet plutôt qu'un autre</h2></div>
+      <span class="sec-rule"></span>
+    </header>
+    <p class="lead reveal">Le choix s'est porté sur le <strong>sujet n°1 — dual-boot sur Mac Intel</strong>. Ce n'est pas un coup de cœur : c'est une décision prise critère par critère, en regardant la fiche officielle et la réalité du format de soutenance. Voici le raisonnement, formalisé.</p>
+
+    <div class="memo">
+      <aside class="memo-side reveal">
+        <figure class="fig">
+          <img src="assets/images/macbook-dualboot.png" alt="MacBook Air Early 2015 avec écran partagé entre macOS et Linux" loading="lazy">
+          <figcaption>Configuration cible — MacBook Air 13" Early 2015 (A1466), double amorçage macOS 12 / Ubuntu 22.04 sur le même SSD.</figcaption>
+        </figure>
+        <div class="decision">
+          <b>Décision</b>
+          <p>Sujet n°1 retenu et validé avec le chargé de cours. Le dual-boot maximise la conformité à la fiche tout en minimisant le risque de débordement à la soutenance.</p>
+        </div>
+      </aside>
+
+      <div class="memo-args">
+        <div class="arg reveal" style="--d:.05s">
+          <div class="arg-no">01</div>
+          <div><h3>Risque administratif nul</h3><p>Le sujet correspond mot pour mot aux exemples de la fiche officielle : « installation ou modification d'une configuration existante ». Aucune justification à produire, aucun sujet à « vendre » au chargé de cours — il rentre directement dans le moule.</p></div>
+        </div>
+        <div class="arg reveal" style="--d:.12s">
+          <div class="arg-no">02</div>
+          <div><h3>De la matière déjà disponible</h3><p>Le plan de soutenance est déjà construit, et l'expérience pratique accumulée (Filius, Linux, Proxmox) alimente directement les parties systèmes d'exploitation et matériel. On ne part pas de zéro.</p></div>
+        </div>
+        <div class="arg reveal" style="--d:.19s">
+          <div class="arg-no">03</div>
+          <div><h3>Les quatre critères couverts d'office</h3><p>Actes techniques (partitionnement, bootloader, configuration), analyse de situation (pourquoi le dual-boot, contraintes du Mac Intel), dysfonctionnements (pilotes Wi-Fi, Bluetooth, graphique — attendus, donc documentables), vocabulaire technique (EFI, GRUB/rEFInd, partitionnement).</p></div>
+        </div>
+        <div class="arg reveal" style="--d:.26s">
+          <div class="arg-no">04</div>
+          <div><h3>Un format 15 minutes maîtrisable</h3><p>Une installation / configuration bien rodée se raconte clairement en 15 minutes. Un sujet logiciel exigerait d'expliquer le code, l'architecture <em>et</em> les trois axes — risque réel de déborder ou de bâcler une partie.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrap reveal">
+      <table>
+        <thead><tr><th>Critère de choix</th><th class="win">Dual-boot Mac Intel</th><th>Sujet logiciel (n°2)</th></tr></thead>
+        <tbody>
+          <tr><td>Conformité à la fiche</td><td class="win"><span class="ok">✔</span> Exemple cité mot pour mot</td><td><span class="mid">◐</span> À justifier auprès du chargé de cours</td></tr>
+          <tr><td>Matière disponible</td><td class="win"><span class="ok">✔</span> Plan prêt + expérience Linux/Proxmox</td><td><span class="no">✖</span> À construire intégralement</td></tr>
+          <tr><td>Actes techniques</td><td class="win"><span class="ok">✔</span> Partitionnement, bootloader, pilotes</td><td><span class="ok">✔</span> Développement, déploiement</td></tr>
+          <tr><td>Dysfonctionnements documentables</td><td class="win"><span class="ok">✔</span> Wi-Fi / BT / GPU / webcam — par construction</td><td><span class="mid">◐</span> Aléatoires, difficiles à provoquer</td></tr>
+          <tr><td>Tenue des 15 minutes</td><td class="win"><span class="ok">✔</span> Récit linéaire d'une installation</td><td><span class="no">✖</span> Code + architecture + 3 axes : débordement fréquent</td></tr>
+          <tr class="verdict"><td colspan="3"><span class="ar">→</span> Verdict : le dual-boot Mac Intel est retenu — conformité maximale, risque minimal.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="block alt" id="conformite">
+  <div class="wrap">
+    <span class="ghost">02</span>
+    <header class="sec-head reveal">
+      <div><span class="sec-tag">§ 02 — Conformité</span><h2>Les quatre axes de la fiche d'évaluation</h2></div>
+      <span class="sec-rule"></span>
+    </header>
+    <p class="lead reveal">Chaque exigence de la fiche trouve une réponse concrète dans le travail. Rien n'est laissé à l'interprétation : pour chaque critère, on sait exactement ce qui sera présenté et comment il sera prouvé.</p>
+
+    <div class="ledger" style="margin-top:34px">
+      <div class="crit reveal">
+        <div class="crit-no">01</div>
+        <div><h3>Actes techniques précis</h3><div class="fiche"><b>Extrait de la fiche</b>« réalisation d'actes techniques précis et reproductibles »</div></div>
+        <ul>
+          <li>Partitionnement GPT (réduction APFS via <code>diskutil</code>, création via <code>gdisk</code>)</li>
+          <li>Installation de rEFInd puis de GRUB, configuration de la NVRAM</li>
+          <li>Mise en place du <code>fstab</code> et des points de montage</li>
+          <li>Installation des pilotes (<code>bcmwl</code>, <code>i915</code>, firmware)</li>
+        </ul>
+        <span class="chip-ok">✔ couvert</span>
+      </div>
+      <div class="crit reveal">
+        <div class="crit-no">02</div>
+        <div><h3>Analyse de la situation</h3><div class="fiche"><b>Extrait de la fiche</b>« analyse de la situation de départ et des contraintes »</div></div>
+        <ul>
+          <li>Arbitrage dual-boot <em>vs</em> machine virtuelle (performances natives, accès matériel)</li>
+          <li>Contraintes du Mac Intel : EFI, APFS, ESP partagée, absence de puce T2 sur ce modèle</li>
+          <li>Choix justifié de la distribution et du plan de disque (SSD 128 / 256 Go)</li>
+        </ul>
+        <span class="chip-ok">✔ couvert</span>
+      </div>
+      <div class="crit reveal">
+        <div class="crit-no">03</div>
+        <div><h3>Dysfonctionnements &amp; solutions</h3><div class="fiche"><b>Extrait de la fiche</b>« dysfonctionnements rencontrés et solutions apportées »</div></div>
+        <ul>
+          <li>Journal de bord tracé : Wi-Fi, Bluetooth, webcam, os-prober, horloge RTC</li>
+          <li>Méthode de diagnostic systématique : <code>dmesg</code>, <code>lspci</code>, <code>journalctl</code></li>
+          <li>Chaque incident = symptôme → cause → solution vérifiée</li>
+        </ul>
+        <span class="chip-ok">✔ couvert</span>
+      </div>
+      <div class="crit reveal">
+        <div class="crit-no">04</div>
+        <div><h3>Vocabulaire technique</h3><div class="fiche"><b>Extrait de la fiche</b>« emploi d'un vocabulaire technique approprié »</div></div>
+        <ul>
+          <li>EFI, ESP, GPT, APFS, ext4, bootloader, noyau, firmware, NVRAM, <code>bless</code>, DKMS</li>
+          <li>Emploi naturel tout au long du rapport et de la soutenance</li>
+          <li>Glossaire complet fourni en annexe</li>
+        </ul>
+        <span class="chip-ok">✔ couvert</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="technique">
+  <div class="wrap">
+    <span class="ghost">03</span>
+    <header class="sec-head reveal">
+      <div><span class="sec-tag">§ 03 — Dossier technique</span><h2>La machine, le disque, l'amorçage</h2></div>
+      <span class="sec-rule"></span>
+    </header>
+
+    <div class="sub reveal"><b>3.1</b><span>Machine cible &amp; contraintes</span></div>
+    <div class="specs reveal">
+      <div class="spec"><b>Modèle</b><span>MacBook Air 13" Early 2015 · A1466</span></div>
+      <div class="spec"><b>Processeur</b><span>Intel Core i5-5250U · Broadwell · 1,6 GHz</span></div>
+      <div class="spec"><b>Mémoire</b><span>8 Go LPDDR3 1600 MHz · soudée</span></div>
+      <div class="spec"><b>Stockage</b><span>SSD flash PCIe · 128 ou 256 Go</span></div>
+      <div class="spec"><b>Wi-Fi</b><span>Broadcom BCM4360 · 802.11ac</span></div>
+      <div class="spec"><b>Bluetooth</b><span>4.0 · Broadcom BCM20702</span></div>
+      <div class="spec"><b>Graphique</b><span>Intel HD Graphics 6000</span></div>
+      <div class="spec"><b>Firmware</b><span>EFI 2.x · sans puce T2</span></div>
+    </div>
+
+    <div class="tech-grid">
+      <figure class="fig reveal">
+        <img src="assets/images/macbook-install.png" alt="Vue éclatée du MacBook Air et clé USB d'installation" loading="lazy">
+        <figcaption>Poste de travail pendant l'installation : composants du MacBook Air identifiés (SSD PCIe, carte Wi-Fi) et clé USB EFI bootable.</figcaption>
+      </figure>
+      <div class="callout reveal">
+        <b>⚠ Pas de puce T2 sur ce modèle</b>
+        Les Mac équipés de la puce T2 (2018 et plus) activent le Secure Boot et bloquent les chargeurs tiers sans passer par <code>bputil</code> et une sécurité réduite. Le MacBook Air Early 2015 y échappe totalement : démarrage libre, ESP standard, aucun compromis de sécurité à documenter en urgence. C'est précisément ce qui rend ce modèle idéal pour le sujet.
+      </div>
+    </div>
+
+    <div class="sub reveal"><b>3.2</b><span>Plan de partitionnement (GPT)</span>
+      <div class="cap-toggle" role="group" aria-label="Capacité du SSD">
+        <button class="cap-btn on" data-cap="128">SSD 128 Go</button>
+        <button class="cap-btn" data-cap="256">SSD 256 Go</button>
+      </div>
+    </div>
+    <div class="disk reveal">
+      <div class="plan-total" id="plan-total"></div>
+      <div class="disk-bar" id="disk-bar"></div>
+      <div class="legend" id="disk-legend"></div>
+      <p class="note">Largeurs indicatives pour la lisibilité (ESP et Recovery surdimensionnées à l'écran). L'ESP existante est partagée entre les deux systèmes — aucun firmware n'est réinstallé. Basculez 128 / 256 Go selon la capacité réelle de votre SSD.</p>
+    </div>
+
+    <div class="sub reveal"><b>3.3</b><span>Chaîne d'amorçage</span></div>
+    <div class="chain reveal">
+      <div class="node fw">Firmware EFI<small>NVRAM · ordre de boot · ⌥ au démarrage</small></div>
+      <div class="arrow"></div>
+      <div class="node rf">rEFInd 0.14<small>ESP · FAT32 · menu graphique, détection auto</small></div>
+      <div class="arrow"></div>
+      <div class="branch">
+        <div class="node mac">boot.efi → macOS<small>APFS · disk0s2</small></div>
+        <div class="node lin">GRUB 2.06 → vmlinuz + initrd<small>ext4 · disk0s4 · secours</small></div>
+      </div>
+    </div>
+    <p class="note reveal" style="max-width:760px;margin:16px auto 0">rEFInd en premier : menu graphique, détection automatique des noyaux, retour macOS toujours disponible. GRUB reste en secours (chainload) — redondance voulue.</p>
+
+    <div class="svg-box reveal" style="margin-top:26px">
+      <svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture EFI du dual-boot">
+        <defs>
+          <filter id="sg-s"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity=".12"/></filter>
+          <linearGradient id="sg-mac" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7a8f6b"/><stop offset="100%" stop-color="#5d6e50"/></linearGradient>
+          <linearGradient id="sg-lin" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c16a4b"/><stop offset="100%" stop-color="#a55337"/></linearGradient>
+          <linearGradient id="sg-efi" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2c231d"/><stop offset="100%" stop-color="#3d322b"/></linearGradient>
+          <linearGradient id="sg-rf" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5d6e50"/><stop offset="100%" stop-color="#7a8f6b"/></linearGradient>
+        </defs>
+
+        <!-- Lignes de connexion -->
+        <line class="s-conn" x1="380" y1="60" x2="380" y2="106"/>
+        <polygon class="s-arr" points="376,98 380,108 384,98"/>
+        <line class="s-conn" x1="380" y1="164" x2="380" y2="200"/>
+        <polygon class="s-arr" points="376,192 380,202 384,192"/>
+        <line class="s-conn" x1="380" y1="218" x2="380" y2="238"/>
+        <line class="s-conn" x1="380" y1="238" x2="182" y2="238"/>
+        <line class="s-conn" x1="380" y1="238" x2="578" y2="238"/>
+        <line class="s-conn" x1="182" y1="238" x2="182" y2="258"/>
+        <polygon class="s-arr" points="178,250 182,260 186,250"/>
+        <line class="s-conn" x1="578" y1="238" x2="578" y2="258"/>
+        <polygon class="s-arr" points="574,250 578,260 582,250"/>
+
+        <!-- Nœud EFI -->
+        <g class="s-node" filter="url(#sg-s)">
+          <rect x="272" y="18" width="216" height="42" rx="8" fill="url(#sg-efi)" stroke="rgba(255,255,255,.1)"/>
+          <text x="380" y="36" text-anchor="middle" fill="#f0e7dd" font-weight="400" font-size="14" font-family="'DM Serif Display',Georgia,serif">Firmware EFI</text>
+          <text x="380" y="50" text-anchor="middle" fill="#a69686" font-weight="400" font-size="10" font-family="'JetBrains Mono',ui-monospace,monospace">NVRAM · ⌥ au démarrage</text>
+        </g>
+
+        <!-- Nœud rEFInd -->
+        <g class="s-node" filter="url(#sg-s)">
+          <rect x="262" y="108" width="236" height="56" rx="8" fill="url(#sg-rf)" stroke="rgba(255,255,255,.12)" stroke-width="2"/>
+          <text x="380" y="130" text-anchor="middle" fill="#fff" font-weight="600" font-size="14" font-family="'Inter',system-ui,sans-serif">rEFInd 0.14</text>
+          <text x="380" y="146" text-anchor="middle" fill="rgba(255,255,255,.7)" font-weight="400" font-size="10" font-family="'JetBrains Mono',ui-monospace,monospace">ESP · FAT32 · Détection auto</text>
+          <rect class="s-glow" x="262" y="108" width="236" height="56" rx="8" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="2"/>
+        </g>
+
+        <!-- Nœud macOS -->
+        <g class="s-node" filter="url(#sg-s)">
+          <rect x="60" y="262" width="244" height="66" rx="8" style="fill:var(--card);stroke:var(--line)"/>
+          <rect x="60" y="262" width="244" height="66" rx="8" fill="url(#sg-mac)" opacity=".12"/>
+          <rect x="60" y="266" width="4" height="58" rx="2" style="fill:var(--sage)"/>
+          <circle cx="96" cy="295" r="16" fill="url(#sg-mac)"/>
+          <text x="96" y="300" text-anchor="middle" fill="#fff" font-size="16" font-weight="700" font-family="'JetBrains Mono',ui-monospace,monospace">⌘</text>
+          <text x="124" y="290" style="fill:var(--ink)" font-weight="600" font-size="14" font-family="'Inter',system-ui,sans-serif">macOS 12 Monterey</text>
+          <text x="124" y="306" style="fill:var(--ink-3)" font-weight="400" font-size="10" font-family="'JetBrains Mono',ui-monospace,monospace">APFS · disk0s2 · boot.efi</text>
+        </g>
+
+        <!-- Nœud Linux -->
+        <g class="s-node" filter="url(#sg-s)">
+          <rect x="456" y="262" width="244" height="66" rx="8" style="fill:var(--card);stroke:var(--line)"/>
+          <rect x="456" y="262" width="244" height="66" rx="8" fill="url(#sg-lin)" opacity=".12"/>
+          <rect x="456" y="266" width="4" height="58" rx="2" style="fill:var(--terra)"/>
+          <circle cx="492" cy="295" r="16" fill="url(#sg-lin)"/>
+          <text x="492" y="300" text-anchor="middle" fill="#fff" font-size="16" font-weight="700" font-family="'JetBrains Mono',ui-monospace,monospace">&gt;_</text>
+          <text x="520" y="290" style="fill:var(--ink)" font-weight="600" font-size="14" font-family="'Inter',system-ui,sans-serif">Ubuntu 22.04 LTS</text>
+          <text x="520" y="306" style="fill:var(--ink-3)" font-weight="400" font-size="10" font-family="'JetBrains Mono',ui-monospace,monospace">ext4 · disk0s4 · GRUB 2.06</text>
+        </g>
+
+        <!-- Légendes -->
+        <text x="60" y="358" class="s-label" font-size="9">▼ EFI → rEFInd → choix utilisateur</text>
+        <text x="456" y="358" class="s-label" font-size="9">▼ rEFInd → GRUB (secours)</text>
+      </svg>
+    </div>
+
+    <div class="sub reveal"><b>3.4</b><span>Procédure en 8 étapes</span></div>
+    <ol class="steps">
+      <li class="reveal"><h4>Sauvegarde intégrale</h4><p>Time Machine + clone du disque. Aucun partitionnement sans filet de sécurité.</p></li>
+      <li class="reveal"><h4>Réduction du conteneur APFS</h4><p>Libérer de l'espace en fin de disque sans toucher aux données macOS.</p><span class="cmd">diskutil apfs resizeContainer disk1 60G    # 125G si SSD de 256 Go</span></li>
+      <li class="reveal"><h4>Création des partitions Linux</h4><p>Types GPT 8300 (Linux) et 8200 (swap) dans l'espace libéré.</p><span class="cmd">sudo gdisk /dev/disk0   # puis n / 8300 / 8200 / w</span></li>
+      <li class="reveal"><h4>Boot sur clé USB Ubuntu (EFI)</h4><p>Touche ⌥ (Option) au démarrage, sélection de l'entrée « EFI Boot ».</p></li>
+      <li class="reveal"><h4>Installation manuelle « à côté »</h4><p>/ en ext4, swap, montage de l'ESP existante <strong>sans la formater</strong>.</p></li>
+      <li class="reveal"><h4>Installation de rEFInd</h4><p>Depuis Ubuntu ; inscription du chargeur dans la NVRAM via efibootmgr.</p><span class="cmd">sudo apt install refind && sudo refind-install</span></li>
+      <li class="reveal"><h4>Installation des pilotes</h4><p>Wi-Fi propriétaire + firmware générique + webcam (DKMS), puis vérification matérielle.</p><span class="cmd">sudo apt install bcmwl-kernel-source linux-firmware
+lspci -k | grep -A3 Network ; dmesg | grep brcm</span></li>
+      <li class="reveal"><h4>Tests croisés &amp; snapshot</h4><p>Trois redémarrages sur chaque OS ; veille, Wi-Fi, son, clavier, webcam ; capture du journal.</p></li>
+    </ol>
+
+    <div class="sub reveal"><b>3.5</b><span>Matériel &amp; pilotes</span></div>
+    <div class="table-wrap reveal">
+      <table>
+        <thead><tr><th>Composant</th><th>Référence</th><th>macOS</th><th>Linux (noyau 6.x)</th><th>Point de vigilance</th></tr></thead>
+        <tbody>
+          <tr><td>Wi-Fi</td><td>Broadcom BCM4360</td><td>natif AirPort</td><td><code>wl</code> (bcmwl) ou <code>b43</code></td><td>Firmware propriétaire à installer après coup → pas de réseau pendant l'install : prévoir tethering USB.</td></tr>
+          <tr><td>Bluetooth</td><td>Broadcom BCM20702 · 4.0</td><td>natif</td><td><code>btusb</code> + linux-firmware</td><td>Redémarrage du service parfois nécessaire après une veille.</td></tr>
+          <tr><td>Graphique</td><td>Intel HD Graphics 6000</td><td>Metal</td><td><code>i915</code> (intégré)</td><td>Accélération native dès le noyau 4.x ; écran 1440×900 non Retina → aucun réglage d'échelle HiDPI.</td></tr>
+          <tr><td>Audio</td><td>Cirrus CS4208</td><td>natif</td><td><code>snd_hda_intel</code></td><td>Sortie parfois muette après veille → bascule à refaire.</td></tr>
+          <tr><td>Trackpad / clavier</td><td>USB · bcm5974 / hid-apple</td><td>natif</td><td><code>bcm5974</code> + <code>hid-apple</code></td><td>Mapping ⌘/Ctrl à ajuster (hid-apple) ; gestes multipoints limités.</td></tr>
+          <tr><td>Webcam</td><td>FaceTime HD · Broadcom 1570 (PCIe)</td><td>native</td><td><code>facetimehd</code> (DKMS)</td><td>Absent du noyau standard → pilote communautaire à compiler + firmware à extraire.</td></tr>
+          <tr><td>Horloge RTC</td><td>—</td><td>heure locale</td><td>UTC par défaut</td><td>Décalage de 2 h au changement d'OS → <code>timedatectl set-local-rtc 1</code>.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sub reveal"><b>3.6</b><span>Performances : Dual-boot <em>vs</em> Machine virtuelle</span></div>
+    <p class="lead reveal">Le dual-boot offre un accès natif au matériel, sans couche de virtualisation. Le graphique ci-dessous compare les deux approches sur six critères pour décider de la configuration retenue.</p>
+
+    <div class="svg-box reveal" id="cmp-chart" style="margin-top:10px">
+      <div class="cmp-grid">
+        <div style="display:grid;grid-template-columns:130px 1fr 1fr;gap:14px;padding:6px 0">
+          <span></span>
+          <span class="cmp-head dual">◼ Dual-boot</span>
+          <span class="cmp-head vm">◼ Machine virtuelle</span>
+        </div>
+        <div class="cmp-row" data-d="70" data-v="40">
+          <span class="cmp-label">CPU</span>
+          <div class="cmp-bar-wrap"><div class="cmp-bar dual"><span class="cmp-val">70%</span></div></div>
+          <div class="cmp-bar-wrap"><div class="cmp-bar vm"><span class="cmp-val">40%</span></div></div>
+        </div>
+        <div class="cmp-row" data-d="75" data-v="55">
+          <span class="cmp-label">RAM</span>
+          <div class="cmp-bar-wrap"><div class="cmp-bar dual"><span class="cmp-val">75%</span></div></div>
+          <div class="cmp-bar-wrap"><div class="cmp-bar vm"><span class="cmp-val">55%</span></div></div>
+        </div>
+        <div class="cmp-row" data-d="90" data-v="25">
+          <span class="cmp-label">GPU</span>
+          <div class="cmp-bar-wrap"><div class="cmp-bar dual"><span class="cmp-val">90%</span></div></div>
+          <div class="cmp-bar-wrap"><div class="cmp-bar vm"><span class="cmp-val">25%</span></div></div>
+        </div>
+        <div class="cmp-row" data-d="85" data-v="50">
+          <span class="cmp-label">Disque I/O</span>
+          <div class="cmp-bar-wrap"><div class="cmp-bar dual"><span class="cmp-val">85%</span></div></div>
+          <div class="cmp-bar-wrap"><div class="cmp-bar vm"><span class="cmp-val">50%</span></div></div>
+        </div>
+        <div class="cmp-row" data-d="95" data-v="15">
+          <span class="cmp-label">Accès matériel</span>
+          <div class="cmp-bar-wrap"><div class="cmp-bar dual"><span class="cmp-val">95%</span></div></div>
+          <div class="cmp-bar-wrap"><div class="cmp-bar vm"><span class="cmp-val">15%</span></div></div>
+        </div>
+        <div class="cmp-row" data-d="50" data-v="85">
+          <span class="cmp-label">Praticité</span>
+          <div class="cmp-bar-wrap"><div class="cmp-bar dual"><span class="cmp-val">50%</span></div></div>
+          <div class="cmp-bar-wrap"><div class="cmp-bar vm"><span class="cmp-val">85%</span></div></div>
+        </div>
+      </div>
+      <p class="note" style="margin-top:16px">Évaluations indicatives basées sur le MacBook Air Early 2015 (i5-5250U, 8 Go). La VM simulée est VirtualBox 7.x avec 4 cœurs et 4 Go alloués.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="block dark" id="journal">
+  <div class="wrap">
+    <span class="ghost">04</span>
+    <header class="sec-head reveal">
+      <div><span class="sec-tag">§ 04 — Journal de bord</span><h2>Les dysfonctionnements attendus</h2></div>
+      <span class="sec-rule"></span>
+    </header>
+    <p class="lead reveal">Les pannes ne sont pas des accidents : elles sont <strong>prévues</strong>, provoquées par la configuration, et constituent la matière première de la partie « analyse ». Chaque incident est tracé au format <em>symptôme → diagnostic → cause → solution</em>.</p>
+
+    <div style="margin-top:34px">
+      <details class="log reveal">
+        <summary><span class="lvl info">info</span><span class="time">J+1 · 09:14</span><span class="msg">rEFInd installé mais macOS absent du menu</span><span class="chev">+</span></summary>
+        <div class="log-body">
+          <div class="lb"><b class="sy">Symptôme</b><p>Au démarrage, rEFInd ne propose que les entrées Linux ; le volume macOS n'apparaît pas.</p></div>
+          <div class="lb"><b class="dx">Diagnostic</b><p>Contrôle de <code>refind.conf</code> : directive <code>scanfor</code> trop restrictive.</p></div>
+          <div class="lb"><b class="ca">Cause</b><p>Le scan des volumes internes APFS n'est pas activé par défaut sur cette configuration.</p></div>
+          <div class="lb full"><b class="so">Solution</b><p>Ajout de <code>scanfor internal,external,optical,manual</code> dans <code>refind.conf</code> ; l'entrée macOS réapparaît au redémarrage suivant.</p></div>
+        </div>
+      </details>
+
+      <details class="log reveal">
+        <summary><span class="lvl warn">warn</span><span class="time">J+2 · 14:22</span><span class="msg">wlan0 introuvable après l'installation</span><span class="chev">+</span></summary>
+        <div class="log-body">
+          <div class="lb"><b class="sy">Symptôme</b><p>Aucune interface Wi-Fi ; <code>ip link</code> ne liste que <code>lo</code> et l'Ethernet.</p></div>
+          <div class="lb"><b class="dx">Diagnostic</b><p><code>lspci -nnk | grep -A3 Network</code> → BCM4360, « Kernel driver in use: (none) ».</p></div>
+          <div class="lb"><b class="ca">Cause</b><p>Le firmware propriétaire Broadcom n'est pas inclus dans le noyau par défaut.</p></div>
+          <div class="lb full"><b class="so">Solution</b><p>Tethering USB puis <code>sudo apt install bcmwl-kernel-source</code> ; <code>modprobe wl</code> ; vérification par <code>ip link</code>. Documenté comme étape post-install obligatoire.</p></div>
+        </div>
+      </details>
+
+      <details class="log reveal">
+        <summary><span class="lvl warn">warn</span><span class="time">J+3 · 11:48</span><span class="msg">Bluetooth instable après une veille</span><span class="chev">+</span></summary>
+        <div class="log-body">
+          <div class="lb"><b class="sy">Symptôme</b><p>Le Bluetooth ne redécouvre plus les périphériques au réveil de la machine.</p></div>
+          <div class="lb"><b class="dx">Diagnostic</b><p><code>dmesg | grep -i bluetooth</code> → échec de chargement du patch firmware.</p></div>
+          <div class="lb"><b class="ca">Cause</b><p>Autosuspend USB du contrôleur <code>btusb</code> incompatible avec le firmware BCM20702.</p></div>
+          <div class="lb full"><b class="so">Solution</b><p>Mise à jour de <code>linux-firmware</code> et désactivation de l'autosuspend : <code>options btusb enable_autosuspend=0</code>.</p></div>
+        </div>
+      </details>
+
+      <details class="log reveal">
+        <summary><span class="lvl err">err</span><span class="time">J+4 · 16:05</span><span class="msg">GRUB ne propose plus macOS (os-prober)</span><span class="chev">+</span></summary>
+        <div class="log-body">
+          <div class="lb"><b class="sy">Symptôme</b><p>Après <code>update-grub</code>, seule Ubuntu apparaît dans le menu GRUB.</p></div>
+          <div class="lb"><b class="dx">Diagnostic</b><p>GRUB ≥ 2.06 désactive <code>os-prober</code> par défaut pour des raisons de sécurité.</p></div>
+          <div class="lb"><b class="ca">Cause</b><p><code>GRUB_DISABLE_OS_PROBER=true</code> implicite depuis la version 2.06.</p></div>
+          <div class="lb full"><b class="so">Solution</b><p><code>GRUB_DISABLE_OS_PROBER=false</code> dans <code>/etc/default/grub</code> + <code>sudo update-grub</code>. Stratégie retenue : déléguer le choix à rEFInd et garder GRUB en secours.</p></div>
+        </div>
+      </details>
+
+      <details class="log reveal">
+        <summary><span class="lvl warn">warn</span><span class="time">J+5 · 08:30</span><span class="msg">Horloge décalée de 2 h entre les deux OS</span><span class="chev">+</span></summary>
+        <div class="log-body">
+          <div class="lb"><b class="sy">Symptôme</b><p>L'heure est fausse sous Linux juste après un passage sous macOS (et inversement).</p></div>
+          <div class="lb"><b class="dx">Diagnostic</b><p><code>timedatectl</code> : « RTC in local TZ: no » côté Linux.</p></div>
+          <div class="lb"><b class="ca">Cause</b><p>macOS lit l'horloge matérielle en heure locale, Linux en UTC.</p></div>
+          <div class="lb full"><b class="so">Solution</b><p><code>timedatectl set-local-rtc 1 --adjust-system-clock</code> côté Linux (avec note du compromis dans le rapport).</p></div>
+        </div>
+      </details>
+
+      <details class="log reveal">
+        <summary><span class="lvl err">err</span><span class="time">J+6 · 10:12</span><span class="msg">Webcam FaceTime HD inopérante sous Linux</span><span class="chev">+</span></summary>
+        <div class="log-body">
+          <div class="lb"><b class="sy">Symptôme</b><p>Aucune caméra détectée par les applications vidéo ; <code>/dev/video0</code> absent.</p></div>
+          <div class="lb"><b class="dx">Diagnostic</b><p><code>lspci -nnk</code> → « Broadcom Device 1570 », aucun pilote attaché.</p></div>
+          <div class="lb"><b class="ca">Cause</b><p>La caméra FaceTime HD du MacBook Air est un périphérique PCIe propriétaire, sans pilote dans le noyau standard.</p></div>
+          <div class="lb full"><b class="so">Solution</b><p>Installation du pilote communautaire <code>facetimehd</code> (bcwc_pcie) via DKMS, extraction du firmware, puis <code>modprobe facetimehd</code> — caméra fonctionnelle.</p></div>
+        </div>
+      </details>
+
+      <details class="log reveal">
+        <summary><span class="lvl ok">ok</span><span class="time">J+8 · 17:50</span><span class="msg">Double amorçage stable sur 10 cycles</span><span class="chev">+</span></summary>
+        <div class="log-body">
+          <div class="lb full"><b class="so">Validation</b><p>Dix redémarrages alternés macOS / Linux sans anomalie ; Wi-Fi, Bluetooth, son, webcam et veille fonctionnels des deux côtés. Checklist de recette validée — la configuration est reproductible et documentée.</p></div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="soutenance">
+  <div class="wrap">
+    <span class="ghost">05</span>
+    <header class="sec-head reveal">
+      <div><span class="sec-tag">§ 05 — Soutenance</span><h2>Le déroulé des 15 minutes</h2></div>
+      <span class="sec-rule"></span>
+    </header>
+    <p class="lead reveal">Quinze minutes, c'est court : chaque tranche est calibrée. Le cœur (la démonstration technique) occupe un tiers du temps ; l'analyse et les dysfonctionnements encadrent sans empiéter.</p>
+
+    <div class="tl-wrap reveal" style="margin-top:34px">
+      <div class="tl-bar">
+        <div class="tl-seg s1" style="width:13.333%" data-i="0">Intro<small>2 min</small></div>
+        <div class="tl-seg s2" style="width:20%" data-i="1">Analyse<small>3 min</small></div>
+        <div class="tl-seg s3" style="width:33.333%" data-i="2">Démo<small>5 min</small></div>
+        <div class="tl-seg s4" style="width:20%" data-i="3">Pannes<small>3 min</small></div>
+        <div class="tl-seg s5" style="width:13.333%" data-i="4">Concl.<small>2 min</small></div>
+      </div>
+      <div class="tl-cursor" id="tl-cursor"></div>
+    </div>
+    <div class="tl-detail reveal" id="tl-detail"></div>
+
+    <div class="tl-list reveal">
+      <div class="tl-row" data-i="0"><div class="rt">0:00 → 2:00<b>2 min</b></div><div class="rb"><h5>Introduction &amp; contexte</h5><p>Accroche autour de la machine · dual-boot ≠ virtualisation · annonce du plan.</p></div></div>
+      <div class="tl-row" data-i="1"><div class="rt">2:00 → 5:00<b>3 min</b></div><div class="rb"><h5>Analyse de la situation</h5><p>Pourquoi le dual-boot · contraintes du Mac Intel (EFI, APFS, absence de T2) · plan de disque justifié.</p></div></div>
+      <div class="tl-row" data-i="2"><div class="rt">5:00 → 10:00<b>5 min</b></div><div class="rb"><h5>Actes techniques — démonstration</h5><p>Réduction APFS, partitions, rEFInd/GRUB, boot sur les deux OS. Montrer, pas raconter.</p></div></div>
+      <div class="tl-row" data-i="3"><div class="rt">10:00 → 13:00<b>3 min</b></div><div class="rb"><h5>Dysfonctionnements &amp; solutions</h5><p>Trois cas maximum (Wi-Fi, webcam, RTC) + méthode de diagnostic.</p></div></div>
+      <div class="tl-row" data-i="4"><div class="rt">13:00 → 15:00<b>2 min</b></div><div class="rb"><h5>Conclusion &amp; perspectives</h5><p>Bilan au regard des objectifs · limites · ouvertures (Apple Silicon, OpenCore, virtualisation).</p></div></div>
+    </div>
+
+    <div class="timer reveal">
+      <div id="t-time">15:00</div>
+      <div class="t-meta"><b>Chrono de répétition</b><div id="t-status">Prêt — 15:00 au compteur, segments cliquables.</div></div>
+      <div class="btns">
+        <button class="btn ghost" id="t-start">▶ Démarrer</button>
+        <button class="btn ghost" id="t-reset">⟲ Reset</button>
+        <button class="btn" id="presenter-btn">▣ Présenter</button>
+      </div>
+    </div>
+
+    <div class="chk-grid reveal">
+      <div class="chk"><i></i><span>Rapport relu ×2 (orthographe + glossaire)</span></div>
+      <div class="chk"><i></i><span>Démo sauvegardée en vidéo (plan B)</span></div>
+      <div class="chk"><i></i><span>Clé USB d'installation + adaptateurs</span></div>
+      <div class="chk"><i></i><span>Slides répétées 3× avec le chrono</span></div>
+      <div class="chk"><i></i><span>Rapport imprimé + annexes</span></div>
+      <div class="chk"><i></i><span>Chargeur + batterie à 100 % le jour J</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="block alt" id="planning">
+  <div class="wrap">
+    <span class="ghost">06</span>
+    <header class="sec-head reveal">
+      <div><span class="sec-tag">§ 06 — Rétroplanning</span><h2>Huit semaines jusqu'à la soutenance</h2></div>
+      <span class="sec-rule"></span>
+    </header>
+    <p class="lead reveal">L'écriture du rapport démarre tôt et court en parallèle de la technique : pas de rédaction en urgence la dernière semaine. Les jalons sont placés là où ils débloquent la suite.</p>
+
+    <div class="gantt reveal" style="margin-top:34px">
+      <div class="g-in">
+        <div class="g-row">
+          <div class="g-head">Tâche</div>
+          <div class="g-head">S1<span>31/08</span></div><div class="g-head">S2<span>07/09</span></div><div class="g-head">S3<span>14/09</span></div><div class="g-head">S4<span>21/09</span></div><div class="g-head">S5<span>28/09</span></div><div class="g-head">S6<span>05/10</span></div><div class="g-head">S7<span>12/10</span></div><div class="g-head">S8<span>19/10</span></div>
+        </div>
+        <div class="g-row"><div class="g-task">Validation sujet &amp; fiche</div><div class="g-track"><div class="bar b-prep" style="grid-column:1/span 1" title="Semaine 1"></div></div></div>
+        <div class="g-row"><div class="g-task">Environnement de test (VM, USB)</div><div class="g-track"><div class="bar b-prep" style="grid-column:1/span 2" title="Semaines 1–2"></div></div></div>
+        <div class="g-row"><div class="g-task">Sauvegardes &amp; préparation machine</div><div class="g-track"><div class="bar b-prep" style="grid-column:2/span 1" title="Semaine 2"></div></div></div>
+        <div class="g-row"><div class="g-task">Partitionnement + installation</div><div class="g-track"><div class="bar b-exec" style="grid-column:3/span 1" title="Semaine 3"></div></div></div>
+        <div class="g-row"><div class="g-task">Pilotes &amp; configuration</div><div class="g-track"><div class="bar b-exec" style="grid-column:3/span 3" title="Semaines 3–5"></div></div></div>
+        <div class="g-row"><div class="g-task">Journal de bord &amp; captures</div><div class="g-track"><div class="bar b-rec" style="grid-column:4/span 3" title="Semaines 4–6"></div></div></div>
+        <div class="g-row"><div class="g-task">Rédaction du rapport</div><div class="g-track"><div class="bar b-write" style="grid-column:4/span 4" title="Semaines 4–7"></div></div></div>
+        <div class="g-row"><div class="g-task">Slides + répétitions chronométrées</div><div class="g-track"><div class="bar b-rep" style="grid-column:7/span 2" title="Semaines 7–8"></div></div></div>
+        <div class="g-row"><div class="g-task">Jalons ◆</div><div class="g-track">
+          <div class="ms" style="grid-column:3" title="Installation réussie — fin S3">◆</div>
+          <div class="ms" style="grid-column:7" title="Rapport remis — fin S7">◆</div>
+          <div class="ms" style="grid-column:8" title="Soutenance — S8">◆</div>
+        </div></div>
+      </div>
+    </div>
+    <div class="g-legend reveal">
+      <span><i style="background:#b5a898"></i>Préparation</span>
+      <span><i style="background:var(--sage)"></i>Exécution technique</span>
+      <span><i style="background:var(--terra)"></i>Relevés &amp; dysfonctionnements</span>
+      <span><i style="background:#6b5c50"></i>Rédaction</span>
+      <span><i style="background:var(--sage-deep)"></i>Slides &amp; répétitions</span>
+      <span>◆ Jalon</span>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="ressources">
+  <div class="wrap">
+    <span class="ghost">07</span>
+    <header class="sec-head reveal">
+      <div><span class="sec-tag">§ 07 — Ressources</span><h2>Bibliographie &amp; références</h2></div>
+      <span class="sec-rule"></span>
+    </header>
+    <p class="lead reveal">Des sources de premier rang : documentation officielle des chargeurs, wikis communautaires reconnus, manuels constructeur. Le glossaire complet figurera en annexe du rapport.</p>
+
+    <div class="res reveal" style="margin-top:34px">
+      <a href="https://www.rodsbooks.com/refind/" target="_blank" rel="noopener"><span class="ri">01</span><span class="rt"><b>rEFInd — documentation officielle</b><small>Chargeur EFI graphique, détection automatique, configuration.</small></span><span class="ru">rodsbooks.com/refind</span></a>
+      <a href="https://www.rodsbooks.com/efi-bootloaders/" target="_blank" rel="noopener"><span class="ri">02</span><span class="rt"><b>Rod Smith — Managing EFI Boot Loaders for Linux</b><small>Référence de fond sur l'amorçage EFI sous Linux.</small></span><span class="ru">rodsbooks.com/efi-bootloaders</span></a>
+      <a href="https://wiki.archlinux.org/title/Dual_boot_with_macOS" target="_blank" rel="noopener"><span class="ri">03</span><span class="rt"><b>ArchWiki — Dual boot with macOS</b><small>Partitionnement, ESP partagée, cas particuliers Intel.</small></span><span class="ru">wiki.archlinux.org</span></a>
+      <a href="https://doc.ubuntu-fr.org/wifi_broadcom" target="_blank" rel="noopener"><span class="ri">04</span><span class="rt"><b>doc.ubuntu-fr.org — Wi-Fi Broadcom</b><small>Pilotes bcmwl / b43 et installation du firmware.</small></span><span class="ru">doc.ubuntu-fr.org</span></a>
+      <a href="https://github.com/patjak/bcwc_pcie" target="_blank" rel="noopener"><span class="ri">05</span><span class="rt"><b>bcwc_pcie / facetimehd (DKMS)</b><small>Pilote communautaire de la webcam FaceTime HD (Broadcom 1570).</small></span><span class="ru">github.com/patjak/bcwc_pcie</span></a>
+      <a href="https://support.apple.com/" target="_blank" rel="noopener"><span class="ri">06</span><span class="rt"><b>Apple — manuel diskutil &amp; support Boot Camp</b><small>Réduction APFS, Recovery HD, sécurité de démarrage.</small></span><span class="ru">support.apple.com</span></a>
+      <a href="https://www.kernel.org/doc/html/latest/" target="_blank" rel="noopener"><span class="ri">07</span><span class="rt"><b>Documentation du noyau Linux — i915, btusb</b><small>Paramètres des pilotes graphique et Bluetooth.</small></span><span class="ru">kernel.org/doc</span></a>
+      <a href="https://www.ifixit.com/" target="_blank" rel="noopener"><span class="ri">08</span><span class="rt"><b>iFixit — démontage MacBook Air</b><small>Identification matérielle (Wi-Fi, SSD PCIe, batterie).</small></span><span class="ru">ifixit.com</span></a>
+    </div>
+
+    <div class="gloss reveal">
+      <b>Glossaire (extrait — version complète en annexe)</b>
+      <code>EFI</code> interface firmware · <code>ESP</code> partition système EFI (FAT32) · <code>GPT</code> table de partitions GUID · <code>APFS</code> système de fichiers Apple · <code>NVRAM</code> mémoire non volatile de boot · <code>bless</code> outil Apple de désignation du volume de démarrage · <code>os-prober</code> détection des OS tiers par GRUB · <code>DKMS</code> compilation de modules noyau hors arborescence · <code>bootloader</code> chargeur d'amorçage.
+    </div>
+  </div>
+</section>
+
+  <!-- ── OVERLAY MODE PRÉSENTATEUR ── -->
+  <div class="presenter-overlay" id="presenter">
+    <div class="p-top">
+      <div class="p-dots" id="p-dots"></div>
+      <div class="p-label" id="p-label"></div>
+      <button class="p-exit" id="p-exit" title="Quitter (Esc)">✕</button>
+    </div>
+    <div class="p-main">
+      <div class="p-time" id="p-time">15:00</div>
+      <div class="p-sep"><span></span></div>
+      <div class="p-title" id="p-title"></div>
+      <ul class="p-points" id="p-points"></ul>
+    </div>
+    <div class="p-bottom">
+      <button class="p-nav" id="p-prev" title="Section précédente (←)">◀ <span>Précédente</span></button>
+      <div class="p-hint"><kbd>Espace</kbd> Démarrer / Pause · <kbd>←</kbd> <kbd>→</kbd> Naviguer · <kbd>Esc</kbd> Quitter</div>
+      <button class="p-nav" id="p-next" title="Section suivante (→)"><span>Suivante</span> ▶</button>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="foot-in">
+    <div class="fl"><b>TFE · Dual-boot Mac Intel — MacBook Air Early 2015</b><br>Document de cadrage — v1.2 · 29 juillet 2026<br>Conçu pour une soutenance de 15 minutes + questions.</div>
+    <button class="print-btn" data-print>⎙ Imprimer / exporter en PDF</button>
+  </div>
+</footer>
+
+<button class="btt" id="btt" aria-label="Retour en haut">↑</button>
+
+<script>
+(function(){
+  "use strict";
+
+  // ── Mode sombre : toggle + localStorage ──
+  var html=document.documentElement;
+  var themeBtn=document.querySelector('[data-theme-toggle]');
+  var saved=localStorage.getItem('tfe-theme');
+  if(saved==='dark'){html.dataset.theme='dark';themeBtn.textContent='☀️';}else{themeBtn.textContent='🌙';}
+  themeBtn.addEventListener('click',function(){
+    var isDark=html.dataset.theme==='dark';
+    html.dataset.theme=isDark?'light':'dark';
+    themeBtn.textContent=isDark?'🌙':'☀️';
+    localStorage.setItem('tfe-theme',isDark?'light':'dark');
+  });
+
+  // ── Barre de progression ──
+  var prog=document.getElementById('progress'), btt=document.getElementById('btt');
+  window.addEventListener('scroll',function(){
+    var h=document.documentElement;
+    var p=h.scrollTop/(h.scrollHeight-h.clientHeight||1);
+    prog.style.width=(p*100)+'%';
+    if(h.scrollTop>700){btt.classList.add('show');}else{btt.classList.remove('show');}
+  },{passive:true});
+  btt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+
+  // ── Toggle macOS / Linux ──
+  document.querySelectorAll('.os-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.documentElement.dataset.os=b.dataset.os;
+      document.querySelectorAll('.os-btn').forEach(function(x){x.classList.toggle('on',x===b);});
+    });
+  });
+
+  // ── Impression ──
+  document.querySelectorAll('[data-print]').forEach(function(b){
+    b.addEventListener('click',function(){window.print();});
+  });
+
+  // ── Animation terminal ──
+  var BOOT=[
+    "EFI v2.40 — rEFInd 0.14.2  ·  Copyright (c) 2012-2026 Roderick W. Smith",
+    "Scan des chargeurs d'amorçage ................ OK",
+    "",
+    "  + macOS 12 Monterey        APFS   · disk0s2",
+    "  + Ubuntu 22.04.4 LTS       ext4   · disk0s4",
+    "  + GRUB 2.06 (secours)      EFI    · disk0s1",
+    "  + Recovery HD              APFS   · disk0s3",
+    "",
+    "Memoire  : 8192 MB OK   ·   SMC 2.20f79   ·   disk0 : SSD flash (GPT)",
+    "En attente de selection ..."
+  ];
+  var bootPre=document.getElementById('bootlog'), bootSec=document.querySelector('.boot');
+  var bl=0,bc=0,bout='';
+  function typeBoot(){
+    if(bl>=BOOT.length){bootSec.classList.add('booted');return;}
+    var line=BOOT[bl];
+    if(bc<line.length){bout+=line[bc++];bootPre.textContent=bout;setTimeout(typeBoot,10);}
+    else{bout+='\n';bc=0;bl++;bootPre.textContent=bout;setTimeout(typeBoot,line===''?50:110);}
+  }
+  document.querySelector('.term').addEventListener('click',function(){
+    bl=BOOT.length;bout=BOOT.join('\n');bootPre.textContent=bout;bootSec.classList.add('booted');
+  });
+  setTimeout(typeBoot,500);
+
+  // ── Volumes cliquables ──
+  document.querySelectorAll('.vol').forEach(function(v){
+    v.addEventListener('click',function(e){
+      e.preventDefault();
+      var t=document.querySelector(v.dataset.target);
+      if(t)t.scrollIntoView({behavior:'smooth'});
+    });
+  });
+
+  // ── Reveal on scroll ──
+  var rio=new IntersectionObserver(function(es){
+    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');rio.unobserve(e.target);}});
+  },{threshold:.14});
+  document.querySelectorAll('.reveal').forEach(function(el){rio.observe(el);});
+
+  // ── Navigation active ──
+  var ids=['cadrage','conformite','technique','journal','soutenance','planning','ressources'];
+  var links=[].slice.call(document.querySelectorAll('.nav-links a'));
+  var nio=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        var id=e.target.id;
+        links.forEach(function(l){l.classList.toggle('on',l.getAttribute('href')==='#'+id);});
+      }
+    });
+  },{rootMargin:'-35% 0px -55% 0px'});
+  ids.forEach(function(id){var el=document.getElementById(id);if(el)nio.observe(el);});
+
+  // ── Checklist ──
+  document.querySelectorAll('.chk').forEach(function(c){
+    c.addEventListener('click',function(){c.classList.toggle('done');});
+  });
+
+  /* ── Plan de partition (128 / 256 Go) ── */
+  var PLANS={
+    '128':{
+      summary:"SSD 128 Go (≈ 121 Go utiles) — macOS 60 Go · Ubuntu 48 Go · swap 4 Go · réserve ≈ 8 Go",
+      segs:[
+        {cls:'esp',label:'',name:'ESP',size:'200 Mo',w:3,tipPos:'l',dev:'disk0s1',fs:'FAT32',body:"Partition système EFI partagée : bootloaders macOS (bless) + rEFInd + GRUB. Jamais formatée."},
+        {cls:'mac',label:'macOS · APFS',name:'macOS',size:'60 Go',w:46,dev:'disk0s2',fs:'APFS',body:"Conteneur macOS 12 Monterey (Système, Données, Preboot, VM). Intouché hors redimensionnement."},
+        {cls:'rec',label:'',name:'Recovery',size:'650 Mo',w:3,dev:'disk0s3',fs:'APFS',body:"Recovery HD : réinstallation macOS et utilitaires. Conservée impérativement."},
+        {cls:'ub',label:'Ubuntu · ext4',name:'Ubuntu',size:'48 Go',w:36,dev:'disk0s4',fs:'ext4',body:"Racine Linux (/) : Ubuntu 22.04 LTS, noyau 6.x, /home inclus."},
+        {cls:'sw',label:'',name:'swap',size:'4 Go',w:4,dev:'disk0s5',fs:'swap',body:"Zone d'échange (RAM = 8 Go). Hibernation volontairement désactivée."},
+        {cls:'free',label:'libre',name:'Réserve',size:'≈ 8 Go',w:8,tipPos:'r',dev:'',fs:'',body:"Marge pour snapshots APFS et futurs tests."}
+      ]
+    },
+    '256':{
+      summary:"SSD 256 Go (≈ 251 Go utiles) — macOS 125 Go · Ubuntu 105 Go · swap 8 Go · réserve ≈ 12 Go",
+      segs:[
+        {cls:'esp',label:'',name:'ESP',size:'200 Mo',w:3,tipPos:'l',dev:'disk0s1',fs:'FAT32',body:"Partition système EFI partagée : bootloaders macOS (bless) + rEFInd + GRUB. Jamais formatée."},
+        {cls:'mac',label:'macOS · APFS',name:'macOS',size:'125 Go',w:47,dev:'disk0s2',fs:'APFS',body:"Conteneur macOS 12 Monterey (Système, Données, Preboot, VM). Intouché hors redimensionnement."},
+        {cls:'rec',label:'',name:'Recovery',size:'650 Mo',w:3,dev:'disk0s3',fs:'APFS',body:"Recovery HD : réinstallation macOS et utilitaires. Conservée impérativement."},
+        {cls:'ub',label:'Ubuntu · ext4',name:'Ubuntu',size:'105 Go',w:40,dev:'disk0s4',fs:'ext4',body:"Racine Linux (/) : Ubuntu 22.04 LTS, noyau 6.x, /home inclus."},
+        {cls:'sw',label:'',name:'swap',size:'8 Go',w:4,dev:'disk0s5',fs:'swap',body:"Zone d'échange (RAM = 8 Go). Hibernation volontairement désactivée."},
+        {cls:'free',label:'libre',name:'Réserve',size:'≈ 12 Go',w:3,tipPos:'r',dev:'',fs:'',body:"Marge pour snapshots APFS et futurs tests."}
+      ]
+    }
+  };
+  var COLS={esp:'#9aab9a',mac:'var(--sage)',rec:'#b5a898',ub:'var(--terra)',sw:'#8a7a6a',free:'#e5dad0'};
+  function renderPlan(key){
+    var plan=PLANS[key];
+    var bar=document.getElementById('disk-bar');
+    var leg=document.getElementById('disk-legend');
+    var tot=document.getElementById('plan-total');
+    bar.classList.remove('in');
+    bar.innerHTML='';
+    plan.segs.forEach(function(s,i){
+      var d=document.createElement('div');
+      d.className='seg '+s.cls;
+      d.style.setProperty('--w',s.w+'%');
+      d.style.setProperty('--sd',(i*0.12)+'s');
+      var tc=s.tipPos==='l'?' l':(s.tipPos==='r'?' r':'');
+      var head=s.name+(s.dev?' · '+s.dev:'');
+      var meta=(s.fs?s.fs+' · ':'')+s.size;
+      d.innerHTML=(s.label?'<span class="sl">'+s.label+'</span>':'')+'<div class="tip'+tc+'"><b>'+head+'</b>'+s.body+'<em>'+meta+'</em></div>';
+      bar.appendChild(d);
+    });
+    leg.innerHTML=plan.segs.map(function(s){
+      var st='background:'+COLS[s.cls];
+      if(s.cls==='free')st+=';border:1px solid var(--line)';
+      return '<span><i style="'+st+'"></i>'+s.name+' · '+s.size+'</span>';
+    }).join('');
+    tot.textContent=plan.summary;
+    void bar.offsetWidth;
+    requestAnimationFrame(function(){bar.classList.add('in');});
+  }
+  document.querySelectorAll('.cap-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.cap-btn').forEach(function(x){x.classList.toggle('on',x===b);});
+      renderPlan(b.dataset.cap);
+    });
+  });
+  renderPlan('128');
+
+  /* ── Timeline soutenance + chronomètre ── */
+  var SEGS=[
+    {start:0,dur:2,title:"Introduction & contexte",points:["Accroche : le MacBook Air au centre de la salle","Définition : dual-boot ≠ virtualisation","Annonce du plan en une phrase"]},
+    {start:2,dur:3,title:"Analyse de la situation",points:["Pourquoi le dual-boot : performances natives, accès matériel","Contraintes du Mac Intel : EFI, APFS, ESP partagée, absence de T2","Choix de la distribution et plan de partitionnement justifiés"]},
+    {start:5,dur:5,title:"Actes techniques — démonstration",points:["Réduction APFS (diskutil) et création des partitions","Installation d'Ubuntu en mode EFI, ESP partagée non formatée","rEFInd en chargeur principal, GRUB en secours","Démarrage sur les deux OS — montrer, pas raconter"]},
+    {start:10,dur:3,title:"Dysfonctionnements & solutions",points:["Trois cas maximum : Wi-Fi BCM4360, webcam FaceTime HD, horloge RTC","Méthode de diagnostic : dmesg, lspci, journalctl","Chaque incident = symptôme → cause → solution"]},
+    {start:13,dur:2,title:"Conclusion & perspectives",points:["Bilan au regard des objectifs de la fiche","Limites rencontrées et contournements","Ouvertures : Apple Silicon, OpenCore Legacy Patcher, virtualisation"]}
+  ];
+  var TOTAL=900, remaining=TOTAL, running=false, tid=null, last=0;
+  var tTime=document.getElementById('t-time'), tStatus=document.getElementById('t-status');
+  var startBtn=document.getElementById('t-start'), resetBtn=document.getElementById('t-reset');
+  var cursor=document.getElementById('tl-cursor'), detail=document.getElementById('tl-detail');
+  var segEls=[].slice.call(document.querySelectorAll('.tl-seg'));
+  var rowEls=[].slice.call(document.querySelectorAll('.tl-row'));
+
+  function fmt(s){s=Math.max(0,Math.round(s));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+  function curIdx(elapsed){
+    if(elapsed>=TOTAL)return SEGS.length-1;
+    var i=-1;for(var k=0;k<SEGS.length;k++){if(elapsed<SEGS[k].start*60){i=k;break;}}
+    return i===-1?SEGS.length-1:Math.max(0,i-1);
+  }
+  function showDetail(i){
+    var s=SEGS[i];
+    detail.innerHTML='<div class="td-head"><span class="td-time">'+fmt(s.start*60)+' → '+fmt((s.start+s.dur)*60)+'</span><h4>'+s.title+'</h4></div><ul>'+s.points.map(function(p){return '<li>'+p+'</li>';}).join('')+'</ul>';
+  }
+  function render(){
+    var elapsed=TOTAL-remaining;
+    tTime.textContent=fmt(remaining);
+    cursor.style.left=(elapsed/TOTAL*100)+'%';
+    var ci=curIdx(elapsed);
+    var live=elapsed>0;
+    segEls.forEach(function(s,i){s.classList.toggle('active',live&&i===ci);});
+    rowEls.forEach(function(r,i){r.classList.toggle('active',live&&i===ci);});
+    if(remaining<=60&&remaining>0){tTime.classList.add('warn');}else{tTime.classList.remove('warn');}
+    if(remaining===TOTAL){tStatus.textContent="Prêt — 15:00 au compteur, segments cliquables.";}
+    else if(remaining<=0){stop();tStatus.textContent="Temps écoulé — conclusion terminée, place aux questions ✓";}
+    else if(running){tStatus.textContent="Section en cours : "+SEGS[ci].title;}
+    else{tStatus.textContent="En pause — "+SEGS[ci].title;}
+  }
+  function tick(){var now=performance.now();var dt=(now-last)/1000;last=now;remaining=Math.max(0,remaining-dt);render();}
+  function start(){if(remaining<=0)remaining=TOTAL;running=true;last=performance.now();tid=setInterval(tick,200);startBtn.innerHTML="⏸ Pause";render();}
+  function stop(){running=false;if(tid)clearInterval(tid);startBtn.innerHTML="▶ Démarrer";}
+  function jump(i){remaining=TOTAL-SEGS[i].start*60;render();}
+  startBtn.addEventListener('click',function(){running?stop():start();});
+  resetBtn.addEventListener('click',function(){stop();remaining=TOTAL;render();});
+  segEls.forEach(function(s,i){s.addEventListener('click',function(){jump(i);});s.addEventListener('mouseenter',function(){showDetail(i);});});
+  rowEls.forEach(function(r,i){r.addEventListener('click',function(){jump(i);});r.addEventListener('mouseenter',function(){showDetail(i);});});
+  // ── Mode présentateur : plein écran + navigation ──
+  var presOverlay=document.getElementById('presenter');
+  var presBtn=document.getElementById('presenter-btn');
+  var presExit=document.getElementById('p-exit');
+  var presPrev=document.getElementById('p-prev');
+  var presNext=document.getElementById('p-next');
+  var presDots=document.getElementById('p-dots');
+  var presTime=document.getElementById('p-time');
+  var presTitle=document.getElementById('p-title');
+  var presPoints=document.getElementById('p-points');
+  var presLabel=document.getElementById('p-label');
+  var presSeg=-1, presOpen=false;
+
+  function presRender(){
+    var elapsed=TOTAL-remaining;
+    presTime.textContent=fmt(remaining);
+    presTime.classList.toggle('warn',remaining<=60&&remaining>0);
+    var ci=TOTAL>0?curIdx(elapsed):0;
+    if(ci!==presSeg){
+      presSeg=ci;
+      var s=SEGS[ci];
+      presTitle.textContent=s.title;
+      presPoints.innerHTML=s.points.map(function(p){return '<li>'+p+'</li>';}).join('');
+      var t=s.start;var e=s.start+s.dur;
+      presLabel.textContent=fmt(t*60)+' → '+fmt(e*60);
+      var dots=[].slice.call(document.querySelectorAll('.p-dot'));
+      dots.forEach(function(d,i){
+        d.classList.toggle('active',i===ci);
+        d.classList.toggle('done',i<ci);
+      });
+      presPrev.disabled=ci===0;
+      presNext.disabled=ci===SEGS.length-1;
+    }
+  }
+
+  function presOpenMode(){
+    presOpen=true;
+    presOverlay.classList.add('open');
+    presSeg=-1;presRender();
+    if(document.documentElement.requestFullscreen){
+      try{document.documentElement.requestFullscreen();}catch(e){}
+    }
+    document.addEventListener('keydown',presKey);
+  }
+
+  function presCloseMode(){
+    presOpen=false;
+    presOverlay.classList.remove('open');
+    if(document.fullscreenElement&&document.exitFullscreen){
+      try{document.exitFullscreen();}catch(e){}
+    }
+    document.removeEventListener('keydown',presKey);
+  }
+
+  function presKey(e){
+    if(!presOpen)return;
+    if(e.key==='Escape'){presCloseMode();return;}
+    if(e.key==='ArrowRight'){
+      e.preventDefault();
+      var next=Math.min(presSeg+1,SEGS.length-1);
+      if(next!==presSeg){jump(next);presSeg=-1;presRender();}
+      return;
+    }
+    if(e.key==='ArrowLeft'){
+      e.preventDefault();
+      var prev=Math.max(presSeg-1,0);
+      if(prev!==presSeg){jump(prev);presSeg=-1;presRender();}
+      return;
+    }
+    if(e.key===' '){
+      e.preventDefault();
+      running?stop():start();
+      return;
+    }
+  }
+
+  // Build dots
+  SEGS.forEach(function(s,i){
+    var d=document.createElement('div');
+    d.className='p-dot'+(i===0?' active':'');
+    d.dataset.label=s.title.replace(/ .*/,'');
+    d.addEventListener('click',function(){jump(i);presSeg=-1;presRender();});
+    presDots.appendChild(d);
+  });
+
+  // Override timer render to sync with presenter
+  var origRender=render;
+  render=function(){origRender();if(presOpen)presRender();};
+
+  presBtn.addEventListener('click',presOpenMode);
+  presExit.addEventListener('click',presCloseMode);
+  presPrev.addEventListener('click',function(){
+    var prev=Math.max(presSeg-1,0);jump(prev);presSeg=-1;presRender();
+  });
+  presNext.addEventListener('click',function(){
+    var next=Math.min(presSeg+1,SEGS.length-1);jump(next);presSeg=-1;presRender();
+  });
+  // ── Animation des barres de comparaison (3.6) ──
+  var cmpChart=document.getElementById('cmp-chart');
+  if(cmpChart){
+    var rows=cmpChart.querySelectorAll('.cmp-row');
+    rows.forEach(function(r,i){
+      var d=parseInt(r.dataset.d);
+      var v=parseInt(r.dataset.v);
+      var bars=r.querySelectorAll('.cmp-bar');
+      bars[0].style.setProperty('--tw',d+'%');
+      bars[1].style.setProperty('--tw',v+'%');
+      bars[0].style.animationDelay=(i*0.12)+'s';
+      bars[1].style.animationDelay=(i*0.12+0.06)+'s';
+    });
+    var cmpObs=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting&&!e.target.classList.contains('in')){
+          e.target.classList.add('in');
+          cmpObs.unobserve(e.target);
+        }
+      });
+    },{threshold:.1});
+    cmpObs.observe(cmpChart);
+    /* Sécurité : forcer l'animation après 1s si l'observer ne se déclenche pas */
+    setTimeout(function(){if(!cmpChart.classList.contains('in'))cmpChart.classList.add('in');},1500);
+  }
+
+  showDetail(2);render();
+
+})();
+</script>
+</body>
+</html>
