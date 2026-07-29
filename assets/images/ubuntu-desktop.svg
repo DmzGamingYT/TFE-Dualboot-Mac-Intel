@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" font-family="'Ubuntu','Segoe UI',sans-serif">
+  <defs>
+    <linearGradient id="ubg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2c0a1e"/><stop offset="50%" stop-color="#3d0a2e"/><stop offset="100%" stop-color="#2c0a1e"/></linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(0,0,0,.85)"/><stop offset="100%" stop-color="rgba(0,0,0,.75)"/></linearGradient>
+  </defs>
+  <!-- Desktop background -->
+  <rect width="700" height="400" fill="url(#ubg)"/>
+  <!-- Ubuntu Jammy Jellyfish wallpaper effect -->
+  <circle cx="200" cy="250" r="180" fill="rgba(193,106,75,.08)"/>
+  <circle cx="500" cy="150" r="150" fill="rgba(122,143,107,.06)"/>
+  <circle cx="350" cy="300" r="120" fill="rgba(193,106,75,.05)"/>
+  <!-- Top panel -->
+  <rect x="0" y="0" width="700" height="28" fill="url(#panel)"/>
+  <text x="14" y="19" font-size="12" fill="#fff" font-weight="500">Ubuntu 22.04.4 LTS</text>
+  <text x="580" y="19" font-size="11" fill="rgba(255,255,255,.7)">mar 29 juil  10:14</text>
+  <text x="670" y="19" font-size="12" fill="rgba(255,255,255,.7)">⚡</text>
+  <!-- Dock (left) -->
+  <rect x="6" y="40" width="52" height="350" rx="12" fill="rgba(0,0,0,.5)"/>
+  <rect x="14" y="52" width="36" height="36" rx="8" fill="#e95420"/><text x="32" y="76" text-anchor="middle" font-size="14" fill="#fff">🐧</text>
+  <rect x="14" y="96" width="36" height="36" rx="8" fill="rgba(255,255,255,.1)"/><text x="32" y="120" text-anchor="middle" font-size="14" fill="#fff">📁</text>
+  <rect x="14" y="140" width="36" height="36" rx="8" fill="rgba(255,255,255,.1)"/><text x="32" y="164" text-anchor="middle" font-size="14" fill="#fff">🌐</text>
+  <rect x="14" y="184" width="36" height="36" rx="8" fill="rgba(255,255,255,.1)"/><text x="32" y="208" text-anchor="middle" font-size="14" fill="#fff">📝</text>
+  <rect x="14" y="228" width="36" height="36" rx="8" fill="rgba(255,255,255,.1)"/><text x="32" y="252" text-anchor="middle" font-size="14" fill="#fff">⚙️</text>
+  <!-- Terminal window -->
+  <rect x="100" y="60" width="460" height="280" rx="10" fill="#300a24" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+  <rect x="100" y="60" width="460" height="30" rx="10" fill="#3d1a30"/>
+  <rect x="100" y="80" width="460" height="10" fill="#3d1a30"/>
+  <circle cx="118" cy="75" r="6" fill="#ff5f57"/><circle cx="136" cy="75" r="6" fill="#febc2e"/><circle cx="154" cy="75" r="6" fill="#28c840"/>
+  <text x="330" y="79" text-anchor="middle" font-size="11" fill="#aaa">alessio@macbook-air: ~</text>
+  <text x="116" y="110" font-size="11" fill="#78dc78">alessio@macbook-air:~$</text>
+  <text x="290" y="110" font-size="11" fill="#d4d4d4"> neofetch</text>
+  <text x="116" y="132" font-size="20" fill="#e95420" font-weight="bold">alessio</text><text x="176" y="132" font-size="11" fill="#d4d4d4">@macbook-air</text>
+  <text x="116" y="148" font-size="11" fill="#888">-----------------</text>
+  <text x="116" y="166" font-size="11" fill="#e95420" font-weight="bold">OS:</text><text x="148" y="166" font-size="11" fill="#d4d4d4">Ubuntu 22.04.4 LTS x86_64</text>
+  <text x="116" y="182" font-size="11" fill="#e95420" font-weight="bold">Host:</text><text x="158" y="182" font-size="11" fill="#d4d4d4">Apple Inc. MacBookAir7,2</text>
+  <text x="116" y="198" font-size="11" fill="#e95420" font-weight="bold">Kernel:</text><text x="172" y="198" font-size="11" fill="#d4d4d4">6.5.0-44-generic</text>
+  <text x="116" y="214" font-size="11" fill="#e95420" font-weight="bold">Uptime:</text><text x="176" y="214" font-size="11" fill="#d4d4d4">2 hours, 14 mins</text>
+  <text x="116" y="230" font-size="11" fill="#e95420" font-weight="bold">CPU:</text><text x="152" y="230" font-size="11" fill="#d4d4d4">Intel i5-5250U (4) @ 2.700GHz</text>
+  <text x="116" y="246" font-size="11" fill="#e95420" font-weight="bold">GPU:</text><text x="152" y="246" font-size="11" fill="#d4d4d4">Intel HD Graphics 6000</text>
+  <text x="116" y="262" font-size="11" fill="#e95420" font-weight="bold">Memory:</text><text x="180" y="262" font-size="11" fill="#d4d4d4">2847MiB / 7872MiB</text>
+  <!-- Wi-Fi icon in panel -->
+  <text x="630" y="19" font-size="12" fill="rgba(255,255,255,.7)">📶</text>
+  <!-- Speaker icon -->
+  <text x="650" y="19" font-size="12" fill="rgba(255,255,255,.7)">🔊</text>
+</svg>

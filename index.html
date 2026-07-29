@@ -398,16 +398,6 @@ td.win{background:var(--accent-soft)}
 .spec b{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:6px}
 .spec span{font-family:var(--font-display);font-weight:400;font-size:15px}
 
-/* ── Placeholders captures d'écran ── */
-.placeholder{border:2px dashed var(--line);border-radius:var(--radius-md);background:var(--paper-2);padding:40px 24px;text-align:center;position:relative;overflow:hidden;transition:.3s}
-.placeholder::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(122,143,107,.03) 20px,rgba(122,143,107,.03) 40px)}
-.placeholder .ph-icon{font-size:36px;margin-bottom:12px;opacity:.4}
-.placeholder .ph-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
-.placeholder .ph-desc{font-size:13px;color:var(--ink-3);max-width:400px;margin:0 auto;line-height:1.5}
-.placeholder .ph-cmd{font-family:var(--font-mono);font-size:11px;background:rgba(44,35,29,.06);border:1px solid var(--line);border-radius:var(--radius-sm);padding:4px 10px;display:inline-block;margin-top:8px;color:var(--ink-2)}
-[data-theme="dark"] .placeholder{border-color:var(--line);background:var(--card)}
-[data-theme="dark"] .placeholder .ph-cmd{background:rgba(255,255,255,.05);border-color:var(--line);color:var(--ink-2)}
-
 /* ── Grille technique ── */
 .tech-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:start;margin-top:24px}
 .callout{border:1px solid rgba(201,148,74,.4);background:rgba(201,148,74,.08);border-left:3px solid var(--warn);padding:15px 17px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:14px;color:var(--ink-2)}
@@ -1194,12 +1184,7 @@ footer{background:linear-gradient(180deg, #2c231d, #1f1915);color:var(--dark-mut
     </div>
 
     <figure class="fig reveal" style="margin-top:24px">
-      <div class="placeholder">
-        <div class="ph-icon">💻</div>
-        <div class="ph-label">Capture d'écran — About This Mac</div>
-        <div class="ph-desc">Menu  → « À propos de ce Mac » montrant le modèle, le processeur et la mémoire du MacBook Air.</div>
-        <div class="ph-cmd">Capture :  → About This Mac</div>
-      </div>
+      <img src="assets/images/about-this-mac.svg" alt="About This Mac — MacBook Air 13&quot; Early 2015" style="width:100%;border-radius:4px">
       <figcaption>Identification de la machine cible — MacBook Air 13" Early 2015, Intel i5-5250U, 8 Go LPDDR3.</figcaption>
     </figure>
 
@@ -1225,12 +1210,7 @@ footer{background:linear-gradient(180deg, #2c231d, #1f1915);color:var(--dark-mut
       <div class="disk-bar" id="disk-bar"></div>
       <div class="legend" id="disk-legend"></div>
     <figure class="fig reveal" style="margin-top:20px">
-      <div class="placeholder">
-        <div class="ph-icon">💾</div>
-        <div class="ph-label">Capture d'écran — Table GPT</div>
-        <div class="ph-desc">Sortie de <code>diskutil list</code> ou <code>sudo gdisk -l /dev/disk0</code> montrant les partitions après installation.</div>
-        <div class="ph-cmd">Terminal : diskutil list</div>
-      </div>
+      <img src="assets/images/diskutil-list.svg" alt="Sortie diskutil list — partitions GPT" style="width:100%;border-radius:4px">
       <figcaption>Table des partitions GPT du SSD — ESP, macOS (APFS), Recovery, Ubuntu (ext4), swap visible.</figcaption>
     </figure>
 
@@ -1249,12 +1229,7 @@ footer{background:linear-gradient(180deg, #2c231d, #1f1915);color:var(--dark-mut
       </div>
     </div>
     <figure class="fig reveal" style="margin-top:20px;max-width:760px;margin-left:auto;margin-right:auto">
-      <div class="placeholder">
-        <div class="ph-icon">🖥️</div>
-        <div class="ph-label">Capture d'écran — Menu rEFInd</div>
-        <div class="ph-desc">Écran du chargeur de démarrage rEFInd affichant les icônes macOS et Ubuntu au démarrage du Mac.</div>
-        <div class="ph-cmd">Capture au démarrage : touche ⌥ ou rEFInd auto</div>
-      </div>
+      <img src="assets/images/refind-menu.svg" alt="Menu rEFInd — sélection macOS et Ubuntu" style="width:100%;border-radius:4px">
       <figcaption>Menu rEFInd au démarrage — détection automatique des volumes macOS (APFS) et Ubuntu (ext4), avec GRUB en secours.</figcaption>
     </figure>
 
@@ -1356,12 +1331,7 @@ lspci -k | grep -A3 Network ; dmesg | grep brcm</span></li>
     </div>
 
     <figure class="fig reveal" style="margin-top:24px">
-      <div class="placeholder">
-        <div class="ph-icon">🔧</div>
-        <div class="ph-label">Capture d'écran — Détection matérielle Linux</div>
-        <div class="ph-desc">Sortie de <code>lspci -k</code> sous Ubuntu montrant les pilotes chargés pour le Wi-Fi, le GPU et la webcam.</div>
-        <div class="ph-cmd">Terminal : lspci -k | grep -A3 -E "Network|VGA|Multimedia"</div>
-      </div>
+      <img src="assets/images/lspci-output.svg" alt="Sortie lspci -k — détection matérielle Linux" style="width:100%;border-radius:4px">
       <figcaption>Détection matérielle sous Ubuntu — Broadcom BCM4360 (wl), Intel HD 6000 (i915), FaceTime HD (facetimehd).</figcaption>
     </figure>
 
@@ -1420,12 +1390,7 @@ lspci -k | grep -A3 Network ; dmesg | grep brcm</span></li>
       <span class="sec-rule"></span>
     </header>
     <figure class="fig reveal" style="margin-top:24px;margin-bottom:24px">
-      <div class="placeholder">
-        <div class="ph-icon">📸</div>
-        <div class="ph-label">Capture d'écran — Ubuntu fonctionnel sur MacBook Air</div>
-        <div class="ph-desc">Bureau Ubuntu 22.04 LTS tournant nativement sur le MacBook Air, avec Wi-Fi, son et webcam actifs.</div>
-        <div class="ph-cmd">Capture d'écran : Shift+Cmd+3 sous Ubuntu (gnome-screenshot)</div>
-      </div>
+      <img src="assets/images/ubuntu-desktop.svg" alt="Ubuntu 22.04 LTS sur MacBook Air Early 2015" style="width:100%;border-radius:4px">
       <figcaption>Ubuntu 22.04 LTS fonctionnel sur MacBook Air Early 2015 — double amorçage confirmé, tous les périphériques opérationnels.</figcaption>
     </figure>
 
