@@ -443,8 +443,9 @@ td.win{background:var(--accent-soft)}
 .chain{display:flex;flex-direction:column;align-items:center}
 .node{border:1px solid var(--line);background:var(--card);border-radius:var(--radius-md);padding:14px 24px;font-family:var(--font-display);font-weight:400;font-size:15px;position:relative;min-width:280px;text-align:center;box-shadow:0 10px 26px -22px rgba(44,35,29,.5)}
 .node small{font-family:var(--font-body);font-weight:400;font-size:11px;color:var(--ink-3);display:block;margin-top:3px}
-.node.fw{background:var(--dark)!important;color:var(--dark-ink)!important;border-color:var(--dark-line)!important}
-.node.fw small{color:var(--dark-mut)!important}
+.node.fw{background:var(--dark);color:var(--dark-ink);border-color:var(--dark-line)}
+.chain .node.fw{color:var(--dark-ink)}
+.node.fw small{color:var(--dark-mut)}
 .node.rf{border-color:var(--accent-line);border-width:2px}
 .node.mac{border-left:4px solid var(--sage)}.node.lin{border-left:4px solid var(--terra)}
 .arrow{width:1px;height:26px;background:var(--ink);opacity:.25;position:relative}
