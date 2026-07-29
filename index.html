@@ -696,12 +696,12 @@ footer{background:linear-gradient(180deg, #2c231d, #1f1915);color:var(--dark-mut
 
 /* ── Barre inférieure ── */
 .p-bottom{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;
-  padding:20px 36px;border-top:1px solid rgba(230,219,207,.05);gap:24px;flex-wrap:wrap;}
+  padding:20px 36px;border-top:1px solid rgba(230,219,207,.05);gap:16px;flex-wrap:wrap;}
 .p-nav{border:1px solid rgba(230,219,207,.1);background:rgba(230,219,207,.03);
   color:rgba(230,219,207,.6);padding:14px 24px;border-radius:10px;cursor:pointer;
   transition:.25s;font-family:var(--font-mono);font-size:12px;
   letter-spacing:.04em;display:flex;align-items:center;gap:10px;
-  backdrop-filter:blur(8px)}
+  backdrop-filter:blur(8px);flex-shrink:0;white-space:nowrap}
 .p-nav:hover{background:rgba(122,158,107,.1);border-color:var(--sage-line);
   color:#e6dbcf;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3)}
 .p-nav:disabled{opacity:.15;cursor:default;transform:none!important;border-color:rgba(230,219,207,.04);background:transparent}
@@ -719,9 +719,9 @@ footer{background:linear-gradient(180deg, #2c231d, #1f1915);color:var(--dark-mut
 .p-counter strong{color:rgba(230,219,207,.8)}
 
 /* ── Sous-titre de section ── */
-.p-subtitle{font-family:var(--font-mono);font-size:clamp(.8rem,1.8vw,1rem);
-  letter-spacing:.06em;color:rgba(122,158,107,.75);margin-bottom:8px;
-  text-transform:uppercase;}
+.p-subtitle{display:block;font-family:var(--font-mono);font-size:clamp(.8rem,1.8vw,1rem);
+  letter-spacing:.06em;color:rgba(122,158,107,.8);margin-top:8px;
+  text-transform:uppercase;line-height:1.4;}
 .p-section-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;
   text-transform:uppercase;color:rgba(230,219,207,.4);margin-bottom:16px;
   padding:5px 12px;border:1px solid rgba(230,219,207,.1);border-radius:6px;
@@ -1889,7 +1889,7 @@ lspci -k | grep -A3 Network ; dmesg | grep brcm</span></li>
       /* titre avec sous-titre et tag de section */
       var titleHTML='<span class="p-section-tag">§ '+s.section+'</span>';
       titleHTML+='<br>'+s.title;
-      if(s.subtitle){titleHTML+='<div class="p-subtitle">'+s.subtitle+'</div>';}
+      if(s.subtitle){titleHTML+='<span class="p-subtitle">'+s.subtitle+'</span>';}
       presTitle.innerHTML=titleHTML;
       presPoints.innerHTML=s.points.map(function(p){return '<li>'+p+'</li>';}).join('');
       var t=s.start;var e=s.start+s.dur;
