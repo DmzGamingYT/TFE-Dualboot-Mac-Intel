@@ -1,5 +1,7 @@
 # TFE — Dual-boot Mac Intel
 
+[![GitHub](https://img.shields.io/badge/GitHub-DmzGamingYT/TFE--Dualboot--Mac--Intel-7a8f6b?style=flat-square&logo=github)](https://github.com/DmzGamingYT/TFE-Dualboot-Mac-Intel)
+
 **Travail de fin d'études** · Installation et configuration d'un double amorçage macOS / Linux sur un MacBook Air 13" Early 2015.
 
 ## Machine cible
